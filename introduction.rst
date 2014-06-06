@@ -19,10 +19,10 @@ Prerequisites
 
 We assume that you are familiar with ZenPack Development Guide and Python coding.
 We further assume that we work from the base of ZP_DIR.
-For NetBotz for example:
+For NetBotz for example::
 
-export ZP_DIR_TOP=$ZENHOME/ZenPacks/ZenPacks.training.NetBotz
-export ZP_DIR=$ZP_DIR_TOP/ZenPacks/training/NetBotz
+   export ZP_DIR_TOP=$ZENHOME/ZenPacks/ZenPacks.training.NetBotz
+   export ZP_DIR=$ZP_DIR_TOP/ZenPacks/training/NetBotz
 
 Motivation
 ------------------------------------------------------------------------------
@@ -33,16 +33,16 @@ build in Sphinx-doc.
 This project is located at https://github.com/zenoss/ZenPackers and has an
 associated Read-the-docs: http://zenpackers.readthedocs.org/en/latest/
 
- So we need people to step up and transcribe some of these juicy morsels of
+So we need people to step up and transcribe some of these juicy morsels of
 knowledge into new documentation. I'd like to venture that each of us can
 easily put in 30mins of documentation per week, to this end.
 
- For veterans of ZP this can help reduce the amount of repeating of answers
+For veterans of ZP this can help reduce the amount of repeating of answers
 that could easily have a well documented solution. For newbies, it could help
 you to cement your ideas together and provide you with a good documenation that
 can remind you 3 weeks later when you may have forgotten what you have done.
 
- It is the intention of this project to reduce the amount of repeated support
+It is the intention of this project to reduce the amount of repeated support
 and questions related to ZP dev, and if we all participate in this, its almost
 guaranteed that we will suceed.
 
