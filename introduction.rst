@@ -21,8 +21,9 @@ We assume that you are familiar with ZenPack Development Guide and Python coding
 We further assume that we work from the base of ZP_DIR.
 For NetBotz for example::
 
-   export ZP_DIR_TOP=$ZENHOME/ZenPacks/ZenPacks.training.NetBotz
-   export ZP_DIR=$ZP_DIR_TOP/ZenPacks/training/NetBotz
+  export ZP_DIR_TOP=$ZENHOME/ZenPacks/ZenPacks.training.NetBotz
+
+  export ZP_DIR=$ZP_DIR_TOP/ZenPacks/training/NetBotz
 
 Motivation
 ------------------------------------------------------------------------------
