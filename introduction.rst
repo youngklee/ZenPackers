@@ -26,12 +26,12 @@ For NetBotz for example::
 
 Motivation
 ------------------------------------------------------------------------------
+
 This documentation is intended to augment (not replace) the existing
 documentation, and eventually be imported into the mainstream documents. Its
 build in Sphinx-doc.
 
-This project is located at https://github.com/zenoss/ZenPackers and has an
-associated Read-the-docs: http://zenpackers.readthedocs.org/en/latest/
+This project is located at https://github.com/zenoss/ZenPackers 
 
 So we need people to step up and transcribe some of these juicy morsels of
 knowledge into new documentation. I'd like to venture that each of us can
@@ -47,7 +47,7 @@ and questions related to ZP dev, and if we all participate in this, its almost
 guaranteed that we will suceed.
 
 
-Use: Writing and Using Sphinx-Doc
+Writing and Using Sphinx-Doc
 -----------------------------------------------------------------------------
 
 Installing
