@@ -50,10 +50,8 @@ guaranteed that we will suceed.
 Writing and Using Sphinx-Doc
 -----------------------------------------------------------------------------
 
-Writing in Sphinx and RST is very simple. We outline the steps here.
-
 Installing
-~~~~~~~~~~
+============
 
 General documenation is at http://sphinx-doc.org/latest/install.html
 
@@ -81,14 +79,14 @@ or::
 
 
 Downloading the Source from Git
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+==================================
 
 ::
 
   git clone git@github.com:zenoss/ZenPackers.git
 
 Building HTML or Other Targets
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+==================================
 
 In order to build the HTML you simply do this::
 
