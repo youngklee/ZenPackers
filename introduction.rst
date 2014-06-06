@@ -63,34 +63,33 @@ http://sphinx-doc.org/rest.html .
 
 In Debian/Ubuntu, you need (at minimum) these packages::
 
-   apt-get install python-sphinx make
+    apt-get install python-sphinx make
 
 In Centos::
 
-   yum install python-sphinx.noarch make
+    yum install python-sphinx.noarch make
 
 In MacOSX::
   
-   sudo port install py27-sphinx make
+    sudo port install py27-sphinx make
 
 or::
 
-   brew install sphinx
+    brew install sphinx
 
 
 Downloading the Source from Git
 ==================================
+Download the source here::
 
-::
-
-  git clone git@github.com:zenoss/ZenPackers.git
+    git clone git@github.com:zenoss/ZenPackers.git
 
 Building HTML or Other Targets
 ==================================
 
 In order to build the HTML you simply do this::
 
-  cd Zenpackers
-  make html ; cp -a build/html /tmp/
+   cd Zenpackers
+   make html ; cp -a build/html /tmp/
 
 
