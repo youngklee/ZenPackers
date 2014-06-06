@@ -50,6 +50,8 @@ guaranteed that we will suceed.
 Writing and Using Sphinx-Doc
 -----------------------------------------------------------------------------
 
+Writing in Sphinx and RST is very simple. We outline the steps here.
+
 Installing
 ~~~~~~~~~~
 
@@ -59,7 +61,7 @@ In order to write in Sphinx-Doc you need to be familiar with the
 Restructured Text (RST) format for documentation. Its really dirt simple and
 there are many examples and docs online like http://sphinx-doc.org/tutorial.html,
 http://docutils.sourceforge.net/docs/user/rst/quickref.html, and
-http://sphinx-doc.org/rest.html.
+http://sphinx-doc.org/rest.html .
 
 In Debian/Ubuntu, you need (at minimum) these packages::
 
