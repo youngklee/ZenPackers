@@ -1,0 +1,111 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+# - name: "{{role}}: Dump all vars"
+#   template: src=dumpall.j2 dest=$opt_tmp/ansible.all
+
+- name: "{{ role }}: Install python apps that ansible needs"
+  command: yum install -y {{ item }}
+  with_items: 
+    - python-paramiko
+    - python-jinja2
+    - libselinux-python
+    - cronie
+  changed_when: False
+
+- name: "{{ role }}: Upgrade base system packages"
+  yum: name=* state=latest
+  async: 120
+  poll: 5
+
+- name: "{{role}}: Remove ntpd and other anoyances"
+  yum:  pkg={{item}} state=absent
+  with_items: 
+    - ntp
+
+- name: "{{role}}: Disable SeLinux"
+  selinux: state=disabled
+
+- name: "{{role}}: Install bootstrapping packages"
+  yum:  pkg={{item}} state=present
+  with_items: 
+    - ntpdate
+    - sudo
+
+- name: "{{role}}: Create root's bin directory"
+  file: 
+    path=/root/bin 
+    state=directory
+
+- name: "{{role}}: Install ntp (ticktock) client"
+  copy: src=root/bin/ticktock 
+        dest=/root/bin/ticktock
+
+- name: "{{role}}: Set timezone variables"
+  copy: content='ZONE="America/Chicago"'
+    dest=/etc/sysconfig/clock
+    owner=root
+    group=root
+    mode=644
+
+- name: "{{role}}: Now update timezone data"
+  command: /usr/sbin/tzdata-update
+
+- name: "{{role}}: Hostname"
+  copy: content=${inventory_hostname}
+    dest=/etc/hostname
+    owner=root
+    group=root
+    mode=644
+
+- name: "{{role}}: Schedule ntp ticktock"
+  cron: name="ticktock" hour="2" minute=0 job="/root/bin/ticktock"
+
+- name: "{{role}}: Install root users profile"
+  copy: src={{ item }} 
+        dest=/{{ item }} 
+        owner=root
+        group=root
+        mode=600
+  with_items: 
+    - root/.profile
+    - root/.bashrc
+    - root/.vimrc
+
+# Section for user accounts
+- name: "{{role}}: Add Needed Groups"
+  group: name={{ sudo_group }} 
+         gid=500 
+         state=present
+
+# Section for user accounts
+- name: "{{role}}: Add primary user "
+  user: name={{ sudo_user }} 
+        uid=1000 
+        group={{ sudo_group }}
+        groups={{ sudo_groups }}
+        password={{ sudo_pass }}
+        shell=/bin/bash
+        state=present
+  ignore_errors: yes 
+
+- name: "{{role}}: Install sudo users profile"
+  template: src={{ item }} 
+        dest=/home/{{ item }} 
+        owner={{ sudo_user }}
+        group=users
+        mode=600
+  with_items: 
+    - ${sudo_user}/.profile
+    - ${sudo_user}/.bashrc
+    - ${sudo_user}/.vimrc
+
+- name: "{{role}}: Install sudoers "
+  template: src={{ item }} 
+            dest=/etc/{{ item }} 
+            owner=root
+            group=root
+            mode=440
+  with_items: 
+    - sudoers
+

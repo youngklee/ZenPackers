@@ -1,0 +1,14 @@
+# To update all monitor systems for example: 
+# command        -i (inventory) (playbook files)
+ansible-playbook -i  production   zenoss.yml -K
+
+# What about just reconfiguring NTP on everything? Easy.:
+ansible-playbook -i production monitors.yml --tags ntp
+
+# Run this playbook for local laptops
+ansible-playbook -i production laptops.yml --ask-sudo-pass
+
+# Get local facts: 
+ansible -i ansible_hosts localhost -m setup -c local > local.facts
+
+

@@ -1,0 +1,32 @@
+---
+- hosts: locals
+  user: carinhas
+  sudo: yes
+
+#   tasks:
+# 
+#   - shell: gpg --decrypt secure.gpg 
+#     register: foo_contents
+# 
+#   - debug: msg = " This is a bad message ***** "
+#     # when: foo_contents
+# 
+#   - Set Sudo password
+#     set_fact: one_fact="something" 
+#     debug: msg {{item}}
+# 
+#     with_items:
+#       foo_contents.stdout.split()[1]
+#     when:
+#       foo_contents.stdout.split()[0] == "password:"
+
+
+  roles:
+    - { role: security }
+    - { role: laptop }
+    - { role: btrfs }
+    - { role: lxc }
+    - { role: x11 }
+
+  handlers:
+    - include: handlers/main.yml

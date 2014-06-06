@@ -1,0 +1,12 @@
+[3:47:48 PM] John Crocker: $ docker tag quay.io/zenossinc/daily-zenoss5-resmgr:5.0.0_389 zenoss/zenoss5x
+[3:51:59 PM] John Crocker: NP.
+[3:52:04 PM] Phillip Carinhas: Thanks again John..
+[3:52:52 PM] John Crocker: Then to compile and add the template I do this:
+$ serviced template compile ~/cp/build/services/Zenoss.core | serviced template add
+[3:54:59 PM] John Crocker: The point is that somehow the string in the service definition json (zenoss/zenoss5x) gets mapped to the image quay.io/zenossinc/daily-zenoss5-resmgr:5.0.0_389.  My method does the mapping in docker.  The other way does the mapping in the template compile command
+[3:56:41 PM] John Crocker: You can easily confirm what image you are comparing image ids:
+$ docker images
+REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+quay.io/zenossinc/daily-zenoss5-resmgr   5.0.0_389           57c1ab90189e        16 hours ago        2.509 GB
+zenoss/zenoss5x                          latest              57c1ab90189e        16 hours ago        2.509 GB
+

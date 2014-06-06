@@ -1,0 +1,19 @@
+---
+# Handler to handle common notifications. Handlers are called by other plays.
+# # See http://ansible.cc/docs/playbooks.html for more information about
+# handlers.
+#
+- name: update apt-cache
+  apt: update_cache=yes
+
+- name: restart sshd
+  service: name=sshd state=restarted
+
+- name: clean yum
+  command: {{ item }}
+  with_items:
+    - "yum clean"
+    - "rpm --rebuilddb"
+    - "yum update"
+
+

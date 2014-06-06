@@ -1,0 +1,72 @@
+#! /bin/bash
+
+set +x
+
+declare -A start_options
+
+start_options[serviced]="-master -agent"
+
+source $(zendev bootstrap)
+export PATH=$PATH:$HOME/src/europa/src/golang/src/github.com/zenoss/serviced/serviced
+# Remove this next one for multi-host
+export SERVICED_NOREGISTRY=1
+
+
+start_items=(
+serviced
+)
+
+stop_items=(
+serviced
+)
+
+
+start_all()
+{
+   for service in "${start_items[@]}"; do
+     echo Starting: "${service} ${start_options[$service]} >& /tmp/$service.log"
+     sudo "${service}" ${start_options["$service"]} >& /tmp/"$service".log &
+   done
+}
+
+echo_all()
+{
+   for service in "${start_items[@]}"; do
+     echo Starting: "${service} ${start_options[$service]} >& /tmp/$service.log"
+   done
+}
+
+stop_all()
+{
+   for service in "${stop_items[@]}"; do
+     echo "${service}" stop
+     sudo killall "${service}"
+   done
+}
+
+
+case "$1" in
+  start)
+        start_all
+        ;;
+
+  stop)
+        stop_all
+        ;;
+
+  echo)
+        echo_all
+        ;;
+
+  restart)
+        stop $@
+        start $@
+        ;;
+
+  *)
+        echo "Usage: $N {start|stop}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0

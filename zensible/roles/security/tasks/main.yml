@@ -1,0 +1,19 @@
+---
+# This playbook contains security items: Shorewall, Ulogd (shorewall).
+
+#----- Tighten up SSHd -------------------------------------------------------
+- name: Make sure SSH Server is up-to-date
+  yum: pkg=openssh-server state=latest
+  notify: restart sshd
+
+- name: Load up secure sshd files
+  copy: src=ssh/sshd_config.{{ ansible_distribution }}
+        dest=/etc/ssh/sshd_config
+  notify: restart sshd
+
+- name: Load up sudoers files
+  copy: src=sudoers
+        dest=/etc/sudoers
+        owner=root
+        group=root
+        mode=440

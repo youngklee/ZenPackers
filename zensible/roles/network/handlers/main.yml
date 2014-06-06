@@ -1,0 +1,25 @@
+---
+# Handler to handle common notifications. Handlers are called by other plays.
+# # See http://ansible.cc/docs/playbooks.html for more information about
+# handlers.
+#
+- name: restart ntp
+  service: name=ntpd state=restarted
+
+- name: restart ticktock
+  command: /root/bin/ticktock
+
+- name: update apt
+  apt: update-cache=yes
+
+- name: restart networking
+  service: name=network state=restarted
+
+- name: purge udev
+  file: path=/etc/udev/rules.d/70-persistent-net.rules
+        state=absent
+
+- name: udev_trigger
+  command: /sbin/udevadm reload
+          
+

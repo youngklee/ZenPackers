@@ -1,0 +1,7 @@
+doctrees
+*.doctree
+*.wiki
+*.html
+build
+html
+_static

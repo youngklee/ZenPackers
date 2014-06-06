@@ -1,0 +1,10 @@
+---
+- hosts: zenoss
+  user: zenoss
+  sudo: yes
+
+  roles:
+    - { role: common }
+#   - { role: network }
+#   - { role: security }
+#   - { role: zenoss }

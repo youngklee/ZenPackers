@@ -1,0 +1,22 @@
+Any Migration should do the following things:
+
+1. Identify the old zenpack objects, bound to a device.
+   Find all device classess and devices where "Oracle" template is bound.
+   * Look for : zDeviceTemplates that are overridden
+
+2. Extract the old information from those templates
+
+- Leave them bound... for continuity
+- Enable our modeler plugin for device class or device (zCollectorPlugins gets invoked, gets added to list).
+- Populate zOracleConnectionStrings
+
+- Create new Instance components from the old templates and populuate the new
+
+4. Leave the old ZP objects alone: Provide documentation on how to un-bind the old templates.
+   * Oracle Template needs to be bound to device
+
+zSetXenProperty is safest way to set a zproperty... 
+getTitleOrId: Best way to get name of device.
+getOrganizerName is best way to get Device Class name.
+
+

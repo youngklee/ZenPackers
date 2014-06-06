@@ -1,0 +1,4 @@
+---
+
+sudo_pass: "your_salted_password_from_the_shadow_file"
+example_pass: "$6$Gum3S@lt$n9F6qLnX80Grcya1cSLejflekwjq29yHz682kn6tRn85i34kyb//rsmpxd1k5YyDWPHjHBXJ5zDDuDenpkAiZ0"

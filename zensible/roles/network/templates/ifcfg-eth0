@@ -1,0 +1,10 @@
+DEVICE=eth0
+BOOTPROTO=static
+NM_CONTROLLED=no
+ONBOOT=yes
+TYPE=Ethernet
+IPADDR={{ eth0_ip_address }}
+GATEWAY={{ eth0_ip_gateway }}
+NETMASK={{ eth0_ip_netmask }}
+UUID={{ eth0_uuid }}
+HWADDR={{ ansible_eth0.macaddress }}

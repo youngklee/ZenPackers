@@ -1,0 +1,7 @@
+DEVICE="eth0"
+BOOTPROTO="dhcp"
+NM_CONTROLLED="yes"
+ONBOOT="yes"
+TYPE="Ethernet"
+UUID="{{ eth0_uuid }}"
+HWADDR={{ ansible_eth0.macaddress }}

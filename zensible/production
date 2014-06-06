@@ -1,0 +1,10 @@
+# file: production
+
+[zenoss]
+192.168.122.2
+
+[mp]
+target2222.zenoss.loc
+
+[locals]
+localhost              ansible_connection=local

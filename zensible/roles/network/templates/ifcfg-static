@@ -1,0 +1,10 @@
+DEVICE={{item}}
+BOOTPROTO=static
+NM_CONTROLLED=no
+ONBOOT=yes
+TYPE=Ethernet
+IPADDR={{ ${item}_ip_address }}
+GATEWAY={{ ${item}_ip_gateway }}
+NETMASK={{ ${item}_ip_netmask }}
+UUID={{ ${item}_uuid }}
+HWADDR={{ ansible_${item}.macaddress }}

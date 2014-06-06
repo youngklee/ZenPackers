@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# 1. Stops Zenoss
+# 2. Removes all Zenoss RabbitMQ information and re-initializes the known vhosts
+#    with the appropriate permissions for the Zenoss user.
+# 3. Starts Zenoss
+# Run as zenoss: The zenoss user must have full sudo access.
+# If you run as root, you (may) need to source ~zenoss/.profile
+
+set +e
+
+sudo service zenoss stop
+
+ZENOSS_VHOST=`zenglobalconf -p amqpvhost 2>/dev/null`
+ZENOSS_USER=`zenglobalconf -p amqpuser 2>/dev/null`
+ZENOSS_PASS=`zenglobalconf -p amqppass 2>/dev/null`
+
+set -e
+
+ZENOSS_VHOST=${ZENOSS_VHOST:-"/zenoss"}
+# Add the zenoss-test VHOST (required by ZEP integration tests)
+VHOSTS="$ZENOSS_VHOST /zenoss-test"
+USER=${ZENOSS_USER:-"zenoss"}
+PASS=${ZENOSS_PASS:-"zenoss"}
+RABBITMQCTL="rabbitmqctl"
+if [ `uname -s` = "Linux" ]; then
+    RABBITMQCTL="/usr/sbin/$RABBITMQCTL"
+    if [ `id -u` -ne 0 ]; then
+        RABBITMQCTL="sudo $RABBITMQCTL"
+    fi
+fi
+
+$RABBITMQCTL stop_app
+$RABBITMQCTL reset
+$RABBITMQCTL start_app
+$RABBITMQCTL add_user "$USER" "$PASS"
+# Allow Zenoss user to use the management plug-in
+# This is only available on newer RabbitMQ versions
+$RABBITMQCTL set_user_tags "$USER" "administrator" > /dev/null 2>&1 || :
+for vhost in $VHOSTS; do
+    $RABBITMQCTL add_vhost "$vhost"
+    $RABBITMQCTL set_permissions -p "$vhost" "$USER" '.*' '.*' '.*'
+done
+
+sudo service zenoss start                                                   
+

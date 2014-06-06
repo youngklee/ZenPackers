@@ -1,0 +1,61 @@
+Require one of --install, --remove or --list flags.
+Usage: zenpack [options]
+
+Options:
+  --version             show program's version number and exit
+  -h, --help            show this help message and exit
+  --install=INSTALLPACKNAME
+                        Path to the ZenPack to install.
+  --fetch=FETCH         Name of ZenPack to retrieve from Zenoss and install.
+  --remove=REMOVEPACKNAME, --delete=REMOVEPACKNAME, --uninstall=REMOVEPACKNAME, --erase=REMOVEPACKNAME
+                        Name of the ZenPack to remove.
+  --list                List installed ZenPacks
+  --link                Install the ZenPack in place, without copying into
+                        $ZENHOME/ZenPacks.
+  --files-only          Install the ZenPack files onto the filesystem, but do
+                        not install the ZenPack into Zenoss.
+  --previousversion=PREVIOUSVERSION
+                        Previous version of the zenpack; used during upgrades
+  --if-installed        Delete ZenPack only if installed
+  -C CONFIGFILE, --configfile=CONFIGFILE
+                        Use an alternate configuration file
+  --genconf             Generate a template configuration file
+  --genxmltable         Generate a Docbook table showing command-line
+                        switches.
+  --genxmlconfigs       Generate an XML file containing command-line switches.
+
+  Logging Options:
+    -v LOGSEVERITY, --logseverity=LOGSEVERITY
+                        Logging severity threshold
+    --logpath=LOGPATH   Override the default logging path
+    --maxlogsize=MAXLOGKILOBYTES
+                        Max size of log file in KB; default 10240
+    --maxbackuplogs=MAXBACKUPLOGS
+                        Max number of back up log files; default 3
+
+  ZODB Options:
+    ZODB connection options and MySQL Adapter options.
+
+    -R DATAROOT, --zodb-dataroot=DATAROOT
+                        root object for data load (i.e. /zport/dmd)
+    --zodb-cachesize=ZODB_CACHESIZE
+                        in memory cachesize default: 1000
+    --zodb-host=ZODB_HOST
+                        hostname of the MySQL server for ZODB
+    --zodb-port=ZODB_PORT
+                        port of the MySQL server for ZODB
+    --zodb-user=ZODB_USER
+                        user of the MySQL server for ZODB
+    --zodb-password=ZODB_PASSWORD
+                        password of the MySQL server for ZODB
+    --zodb-db=ZODB_DB   Name of database for MySQL object store
+    --zodb-socket=ZODB_SOCKET
+                        Name of socket file for MySQL server connection if
+                        host is localhost
+    --zodb-cacheservers=ZODB_CACHESERVERS
+                        memcached servers to use for object cache (eg.
+                        127.0.0.1:11211)
+    --zodb-poll-interval=ZODB_POLL_INTERVAL
+                        Defer polling the database for the specified maximum
+                        time interval, in seconds. This will default to 60
+                        only if --zodb-cacheservers is set.

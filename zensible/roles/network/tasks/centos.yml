@@ -1,0 +1,21 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+# - name: Dump all vars
+#   template: src=dumpall.j2 dest=$opt_tmp/ansible.all
+
+# - name: "{{role}}: Umount NFS Mounts to avoid network confusion"
+#   command: /bin/umount -a -t nfs4
+
+- name: "{{role}}: Set EthN to Static"
+  template: src=ifcfg-{{ item }}
+            dest=/etc/sysconfig/network-scripts/ifcfg-{{ item }} 
+            owner=root
+            group=root
+            mode=644
+  with_items: ethernet_cards
+  notify:
+    - purge udev
+    - udev_trigger
+    - restart networking
+

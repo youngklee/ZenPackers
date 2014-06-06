@@ -1,0 +1,20 @@
+---
+# Variables listed here are applicable to all host groups
+
+http_port: 80
+https_port: 443
+ntpserver: us.pool.ntp.org
+git_repo: http://github.com/xxx/mywebapp.git
+sudo_user: zenoss
+sudo_group: zenoss
+sudo_groups: wheel
+sudo_home: /home/zenoss
+
+zen_home: /opt/zenoss
+maven_url: http://www.eng.lsu.edu/mirrors/apache/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
+maven_tmp: apache-maven-3.0.5
+
+zenoss_url: https://github.com/zenoss/core-autodeploy/tarball/4.2.4 -O auto.tar.gz
+
+zp_nfs_source: 192.168.122.1:/data/zenpacks
+zp_mountpoint: /nfs/zenpacks

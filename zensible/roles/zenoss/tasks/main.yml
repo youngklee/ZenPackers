@@ -1,0 +1,72 @@
+---
+- name: Create /opt directory
+  file: path=/opt state=directory
+
+# We then download the maven3 archive, this time it is more simple, we can
+# directly use the get_url module.
+
+- name: Download Maven3
+  get_url: dest=/opt/maven3.tar.gz 
+           url={{ maven_url }}
+
+# We can then unpack the archive and create a symbolic link to the maven location.
+
+- name: Unpack Maven3
+  command: creates={{ maven_tmp }} chdir=/opt tar zxvf /opt/maven3.tar.gz
+
+- name: Create Maven3 directory link
+  file: path=/opt/maven src=/opt/{{ maven_tmp }} state=link
+
+# Use update-alternatives to make mvn accessible platform wide.
+
+- name: Set mvn alternatives link
+  command: update-alternatives --install /usr/bin/mvn mvn /opt/maven/bin/mvn 1
+           creates=/usr/bin/mvn
+
+# Clean things up.
+
+- name: Remove Maven3 archive
+  file: path=/opt/maven3.tar.gz state=absent
+
+- name: "{{ role }}: Install a decent init files for zenoss user"
+  template: src={{item}} 
+        dest=/home/{{sudo_user}}/{{item}}
+        owner={{sudo_user}}
+        group={{sudo_group}}
+        mode=600
+  with_items:
+    - .bashrc
+
+- name: Un-Install packages required by Zenoss 
+  yum: name={{ item }} 
+       state=absent
+  with_items:
+    - postfix
+    - mysql-libs
+
+- name: Install packages needed by Zenoss 
+  yum: name={{item}} 
+       state=latest
+  with_items:
+    - openssh-clients
+    - make
+    - jpackage-utils
+    - java-1.7.0-openjdk
+    - java-1.7.0-openjdk-devel
+    - nfs-utils
+    - nfs-utils-lib
+     
+- name: mount nfs4 share from mothership
+  mount: 
+    src={{ zp_nfs_source }}
+    name={{ zp_mountpoint }}
+    fstype=nfs4
+    opts=noac
+    state=mounted
+  when: nfs_mount
+  
+- name: "{{role}}: Download Zenoss"
+  get_url: dest=/opt/maven3.tar.gz 
+           url={{ zenoss_url }}
+
+

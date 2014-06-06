@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE rrd SYSTEM "http://oss.oetiker.ch/rrdtool/rrdtool.dtd">
+<!-- Round Robin Database Dump -->
+<rrd>
+  <version>0003</version>
+  <step>300</step> <!-- Seconds -->
+  <lastupdate>1386704280</lastupdate> <!-- 2013-12-10 13:38:00 CST -->
+
+  <ds>
+    <name> ds0 </name>
+    <type> GAUGE </type>
+    <minimal_heartbeat>900</minimal_heartbeat>
+    <min>NaN</min>
+    <max>NaN</max>
+
+    <!-- PDP Status -->
+    <last_ds>104857600.0</last_ds>
+    <value>1.8874368000e+10</value>
+    <unknown_sec> 0 </unknown_sec>
+  </ds>
+
+  <!-- Round Robin Archives -->
+  <rra>
+    <cf>AVERAGE</cf>
+    <pdp_per_row>1</pdp_per_row> <!-- 300 seconds -->
+
+    <params>
+      <xff>5.0000000000e-01</xff>
+    </params>
+    <cdp_prep>
+      <ds>
+        <primary_value>1.0485760000e+08</primary_value>
+        <secondary_value>1.0485760000e+08</secondary_value>
+        <value>NaN</value>
+        <unknown_datapoints>0</unknown_datapoints>
+      </ds>
+    </cdp_prep>
+    <database>
+      <!-- 2013-12-08 11:40:00 CST / 1386524400 --> <row><v>1.0485760000e+08</v></row>
+      <!-- 2013-12-08 11:45:00 CST / 1386524700 --> <row><v>1.0485760000e+08</v></row>
+      <!-- 2013-12-08 11:50:00 CST / 1386525000 --> <row><v>1.0485760000e+08</v></row>
+      <!-- 2013-12-08 11:55:00 CST / 1386525300 --> <row><v>1.0485760000e+08</v></row>
+      <!-- 2013-12-08 12:00:00 CST / 1386525600 --> <row><v>1.0485760000e+08</v></row>
+      <!-- 2013-12-08 12:05:00 CST / 1386525900 --> <row><v>1.0485760000e+08</v></row>
+      <!-- 2013-12-08 12:10:00 CST / 1386526200 --> <row><v>1.0485760000e+08</v></row>
+      <!-- 2013-12-08 12:15:00 CST / 1386526500 --> <row><v>1.0485760000e+08</v></row>
+      .......
+    </database>
+  </rra>          
+</rrd>
