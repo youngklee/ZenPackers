@@ -25,7 +25,7 @@ start_all()
 {
    for service in "${start_items[@]}"; do
      echo Starting: "${service} ${start_options[$service]} >& /tmp/$service.log"
-     sudo "${service}" ${start_options["$service"]} >& /tmp/"$service".log &
+     sudo SERVICED_NOREGISTRY=1 "${service}" ${start_options["$service"]} >& /tmp/"$service".log &
    done
 }
 

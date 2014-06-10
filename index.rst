@@ -21,7 +21,7 @@ Topics for Zenpack Administration
    3rd_party_licensing
    zenpack_release
    4x_daemons
-   zenwipe
+   removing_zp
 
 Topics for Zenpack Development
 =============================================

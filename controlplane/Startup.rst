@@ -25,13 +25,11 @@ Docker will store credentials in your account::
      -p GETTHEMAGICKEYFROMTHESOURCE \
      https://quay.io/v1/
 
+
+.. include:: version.rst
+
 You need to grab the magic key from your docker manager.
 Only do once per revision or as needed:: 
-
-   # Set these variables as needed
-   BUILD=434
-   IMAGE=resmgr
-   IMAGE=core
 
    # Pull the images...
    sudo docker pull quay.io/zenossinc/daily-zenoss5-${IMAGE}:5.0.0_${BUILD}
@@ -39,16 +37,22 @@ Only do once per revision or as needed::
    sudo docker pull quay.io/zenossinc/hbase
 
 
-
-Start Serviced: 
-----------------
-
+Setup Zendev Services: 
+--------------------------
 Execute the following::
 
    zendev use europa
    cdz serviced
-   serviced.init start
 
+Starting Serviced  
+-----------------
+
+You can do it one of 2 ways, I prefer the first, which 
+requires you install my :download:`serviced.init <serviced.init>`  in your ~/bin. 
+It also logs to /tmp/serviced.log
+
+* serviced.init start
+* cdz serviced ; serviced -master -agent (Don't use this please)
 
 Add a Host::
 

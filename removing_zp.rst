@@ -54,6 +54,19 @@ For example, you can remove the ZEP database only with this derivative script:
     zenoss start
 
 
+Removing Broken Zenpacks
+-------------------------
+Daniel Robbins has written a script that detects damaged zenpacks and attempts
+to remove them: http://wiki.zenoss.org/Removing_Broken_ZenPacks
+
+To use it you must use it via zendmd::
+
+   zendmd --script=zenpack-remove.py
+
+Or you can try to manually remove it interactively in zendmd::
+
+   dmd.ZenPackManager.packs._delObject('ZenPacks.zenoss.ZenPackName')
+   commit()
  
    
 

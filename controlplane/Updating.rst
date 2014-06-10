@@ -43,12 +43,9 @@ Contains servive templates....
 Update Templates Method I: Map the template to match Docker
 -------------------------------------------------------------
 
-Build the Template::
+.. include:: version.rst
 
-   # Set these variables as needed
-   BUILD=434
-   IMAGE=resmgr
-   IMAGE=core
+Build the Template::
 
    ZVER=daily-zenoss5-${IMAGE}:5.0.0_${BUILD}
    export IP_ADDRESS=$(ifconfig eth0 | grep 'inet addr:'| cut -d: -f2 | awk '{ print $1}')
@@ -91,12 +88,4 @@ If this is your first time to deploy though::
    serviced template deploy $TEMPLATE_ID default zenoss
 
 
-Start Serviced  
-----------------
-You can do it one of 2 ways, I prefer the first, which 
-requires youinstall serviced.init in your ~/bin. It also
-logs to /tmp/serviced.log
-
-* serviced.init start
-* cdz serviced ; serviced -master -agent
 
