@@ -31,6 +31,7 @@ This is the documentation for Inter-Galactic ZenPack Developers
 .. toctree::
    :maxdepth: 2
 
+   devel_general
    events
    events_special
    gui_properties

@@ -33,6 +33,22 @@ Debugging Tips in General
   - Rerun the zenmodeler command above and also monitor the zenhub log
     in /opt/zenoss/log/zenhub.log for good measure.
 
+* Restarting Services: If you make any changes to your modeler code,
+  you SHOULD restart ZenHub which caches that code at start-time.
+
+.. note:: 
+   You **really** need to restart ZenHub because if you don't and your code fails,
+   it will raise an error but reference the new code. Thus, it will not show or
+   reference the broken (cached) code in the logs. This can be confusing.
+
+.. warning:: 
+   If you re-model a device or component, if the overall returned configuration
+   of those devices/components do not change, ZenHub will *NOT* trigger an
+   event to update any device settings. I other words, if you want to re-model
+   and test a device/component, you **MUST** remove that device/component from
+   Zenoss before attempting any remodel it; otherwise you won't see any
+   changes.
+
 General Introduction
 ------------------------------------------------------------------------
 
@@ -283,5 +299,18 @@ to the new class structure. There are 2 easy ways to fix this:
    [zenoss@mp4:/home/zenoss]: zenmodeler run -v10 -d mydev.zenoss.loc
 
 
+Miscellaneous Tasks
+---------------------
 
+Deleting Components from a Device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This might be needded if you want to remodel a device and don't have access
+to the GUI::
+
+    device = find("device_id")
+        for component in device.getDeviceComponents():
+            component.getPrimaryParent()._delObject(component.id)commit()
+
+    commit()
 

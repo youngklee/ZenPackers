@@ -4,6 +4,8 @@ Updating Serviced in Go
 Execute these commands::
 
    zendev use europa
+   # I'd hope to put these into your .bashrc
+   export IP_ADDRESS=$(ifconfig eth0 | grep 'inet addr:'| cut -d: -f2 | awk '{ print $1}')
    export GOPATH=$(zendev root)/src/golang
    export PATH=$(zendev root)/src/golang/bin:${PATH}
    export ZENHOME=$(zendev root)/zenhome
@@ -48,7 +50,6 @@ Update Templates Method I: Map the template to match Docker
 Build the Template::
 
    ZVER=daily-zenoss5-${IMAGE}:5.0.0_${BUILD}
-   export IP_ADDRESS=$(ifconfig eth0 | grep 'inet addr:'| cut -d: -f2 | awk '{ print $1}')
 
    cdz serviced
    serviced template compile -map zenoss/zenoss5x,quay.io/zenossinc/$ZVER \

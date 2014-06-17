@@ -21,7 +21,7 @@ Docker Prep
 Only do this once.
 Docker will store credentials in your account:: 
 
-   sudo docker login -u zenossinc+alphaeval -e "alpha2@zenoss.com" \
+   docker login -u zenossinc+alphaeval -e "alpha2@zenoss.com" \
      -p GETTHEMAGICKEYFROMTHESOURCE \
      https://quay.io/v1/
 
@@ -31,10 +31,12 @@ Docker will store credentials in your account::
 You need to grab the magic key from your docker manager.
 Only do once per revision or as needed:: 
 
-   # Pull the images...
-   sudo docker pull quay.io/zenossinc/daily-zenoss5-${IMAGE}:5.0.0_${BUILD}
-   sudo docker pull quay.io/zenossinc/opentsdb:latest
-   sudo docker pull quay.io/zenossinc/hbase
+   # Pull the images... (Make sure to tag the zenoss image).
+   docker pull quay.io/zenossinc/daily-zenoss5-${IMAGE}:5.0.0_${BUILD}
+   docker tag  quay.io/zenossinc/daily-zenoss5-${IMAGE}:5.0.0_${BUILD} zenoss/zenoss5x
+   docker pull quay.io/zenossinc/opentsdb:latest
+   docker pull quay.io/zenossinc/hbase
+   docker pull quay.io/zenossinc/isvcs:v9
 
 
 Setup Zendev Services: 
@@ -63,7 +65,7 @@ Compile Template:
 -------------------
 ::
 
-   serviced template compile $(zendev root)/build/services/Zenoss.resmgr > /tmp/Zenoss.xxx.tpl
+   serviced template compile $(zendev root)/build/services/Zenoss.${IMAGE} > /tmp/Zenoss.xxx.tpl
 
 ( or pipe it into the following command )
  

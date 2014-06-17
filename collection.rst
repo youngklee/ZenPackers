@@ -1,6 +1,9 @@
 ========================================================================
-Custom Collectors and Custom Parsers
+Collection: General Tso Style
 ========================================================================
+
+General Considerations
+=======================
 
 Collecting data is the fundamental goal of Zenoss. This section explores
 specific tasks related to data collection and parsing that data.
@@ -74,11 +77,14 @@ Collection process has the following steps:
   \fbox{ZODB}&                       &                &                &                  \\
   \end{array}
 
-
 Ref: http://docs.huihoo.com/zenoss/dev-guide/2.4.2/ch12s05.html
 
+Custom Collectors and Custom Parsers
+========================================================================
+
+
 Collectors/Pollers
-###################
+-------------------
 
 Collection can happen with a native plugin like [ssh, snmp, ping, https, etc.] or a
 custom plugin that you create. The output can come back in several formats like
@@ -162,7 +168,7 @@ The example is pilfered from ZenPacks.zenoss.DB2. Note the following:
         poller.printJSON()
 
 Custom Parsers
-##############
+---------------
 
 The *parser* is invoked after a successful collection has occured.
 If you are not using one of the standard parsers like [Nagios, Cacti, JSON],
