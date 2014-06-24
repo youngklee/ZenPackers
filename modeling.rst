@@ -41,6 +41,9 @@ Debugging Tips in General
    it will raise an error but reference the new code. Thus, it will not show or
    reference the broken (cached) code in the logs. This can be confusing.
 
+Deleting Components from a Device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. warning:: 
    If you re-model a device or component, if the overall returned configuration
    of those devices/components do not change, ZenHub will *NOT* trigger an
@@ -48,6 +51,15 @@ Debugging Tips in General
    and test a device/component, you **MUST** remove that device/component from
    Zenoss before attempting any remodel it; otherwise you won't see any
    changes.
+
+Often you want to remodel a device and don't have access to the GUI.
+In order to remove components via *Zendmd* you can use the following::
+
+    device = find("mp6.zenoss.loc")
+    for component in device.getDeviceComponents():
+        component.getPrimaryParent()._delObject(component.id)
+
+    commit()
 
 General Introduction
 ------------------------------------------------------------------------
@@ -308,9 +320,9 @@ Deleting Components from a Device
 This might be needded if you want to remodel a device and don't have access
 to the GUI::
 
-    device = find("device_id")
-        for component in device.getDeviceComponents():
-            component.getPrimaryParent()._delObject(component.id)commit()
+    device = find("mp6.zenoss.loc")
+    for component in device.getDeviceComponents():
+        component.getPrimaryParent()._delObject(component.id)
 
     commit()
 

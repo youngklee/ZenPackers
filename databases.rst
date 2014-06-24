@@ -54,9 +54,9 @@ your Event.log::
 
 This indicates that RabbitMQ's internal setup has been corrupted. RabbitMQ does
 not have a simple configuration file you can tweak. It must be fixed by setting
-environment variables and then re-started. Its been rumored that even changing
-the hostname can make the Rabbit barf... This is becuase RabbitMQ names the
-database folders with the hostname.
+environment variables and then restarting RabbitMQ. Its been rumored that even
+changing the hostname can make the Rabbit go insane. This is becuase RabbitMQ
+names the database folders using the hostname in part.
 
 You may be able to fix this by applying the following (Thanks PC and JC):
 
