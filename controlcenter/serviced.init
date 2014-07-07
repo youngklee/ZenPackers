@@ -1,0 +1,78 @@
+#! /bin/bash
+
+set +x
+
+declare -A start_options
+
+start_options[solo]="serviced -master -agent"
+start_options[deploy]="zendev serviced"
+start_options[cleandeploy]="zendev serviced --reset --deploy"
+start_options[test]="date +%s"
+
+source $(zendev bootstrap)
+export PATH=$PATH:$HOME/src/europa/src/golang/src/github.com/zenoss/serviced/serviced
+# Remove this next one for multi-host
+export SERVICED_NOREGISTRY=1
+
+
+do_it()
+{
+   local cmd=$1
+   export SERVICED_NOREGISTRY=1
+   echo Starting: "${start_options[$cmd]} >& /tmp/$cmd"
+   sudo SERVICED_NOREGISTRY=1 ${start_options["$cmd"]} >& /tmp/"$cmd".log &
+}
+
+stop_all()
+{
+      echo "killlall serviced"
+      sudo killall serviced
+}
+
+really_stop_all()
+{
+   echo "killall -9 serviced"
+   sudo killall -9 serviced
+   pkill -9 -- 'serviced.*-agent'
+   docker ps -q | xargs docker stop | xargs docker rm
+}
+
+
+case "$1" in
+   solo)
+      do_it $1
+      ;;
+
+   deploy)
+      do_it $1
+      ;;
+
+   cleandeploy)
+      do_it $1
+      ;;
+
+   test)
+      do_it $1
+      ;;
+
+   stop)
+      stop_all
+      ;;
+
+   kill)
+      really_stop_all
+      ;;
+
+   restart)
+      really_stop_all
+      sleep 10
+      do_it deploy
+      ;;
+
+   *)
+      echo "Usage: $N {start|deploy|stop|kill|test|restart}" >&2
+      exit 1
+      ;;
+esac
+
+exit 0
