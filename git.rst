@@ -20,6 +20,17 @@ To just pull (download) a repository from the web:
 
   [bash]: git clone https://github.com/zenoss/ZenPackers.git
 
+Cool Ways to Show Logs and Diffs
+----------------------------------
+
+Often you will need to see your logs and compare different versions::
+
+   git log
+   git log --oneline --graph --decorate --all
+   git diff
+   git diff fe492a1 #(between current and some other node)
+   git diff be158f6 aee7163 #(between two nodes)
+
 Typical Workflow Scenario
 --------------------------------------------------------------
 
@@ -270,6 +281,8 @@ Here is the workflow in a nutshell:
   - Using git push.default=simple: Everything on Github is cleaned for you.
     (See the `Push Defaults`_ section)
   - Otherwise: After finishing, remove the feature repo in Github
+
+* Finally, from your local repo, do a **"git pull"** to sync up
 
 Push Defaults
 ----------------

@@ -54,7 +54,7 @@ Documentation for ZenPackLib
 
    zpl_intro
 
-Topics for ControlPlane (ControlCenter) 
+Topics for ControlCenter (ControlPlane) 
 =============================================
 
 Documentation for ZenPackLib 
@@ -62,7 +62,7 @@ Documentation for ZenPackLib
 .. toctree::
    :maxdepth: 2
 
-   controlplane/index
+   controlcenter/index
 
 Pythonic Topics:
 ================

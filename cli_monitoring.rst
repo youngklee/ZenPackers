@@ -26,6 +26,10 @@ You can use these examples for **zencommand**:
 
    - zencommand run -d test-oracle-1.zenoss.loc
    - zencommand run -d test-oracle-1.zenoss.loc -v 10 
+     
+* Show the full command in addition:
+
+   - zencommand run -v10 --device=<dev> --show-full-command --show-raw-results
 
 * Send it to tee to save output file:
 
