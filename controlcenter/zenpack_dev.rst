@@ -15,7 +15,7 @@ Setup for ZenPack development in ControlCenter requires a fully
 functional ZenDev environment as specified items 1-10, but
 stop before starting serviced on the last line if item 10:
 
-* http://zenoss.github.io/zendev/installation.html#ubuntu
+* https://github.com/zenoss/zendev/blob/develop/docs/installation.rst
 
 Once you have zendev fulling installed but before starting serviced, you need
 to do the following items:
@@ -75,31 +75,131 @@ to do the following items:
      reduce that to a single service. This is done in the ControlCenter GUI
      by changing the Instance value, saving,  and restarting.**
 
+.. Warning::
+
+   **The normal user to attach to a container with is root! This will cause
+   you many sleepless nights and untold problems because zenoss commands as
+   root will change file owernship. Instead use the "zenoss" user. To make this easy,
+   you can use this bash function described in section:**
+   `Attaching to Containers`_
+
 * References
 
   + http://zenoss.github.io/zendev/devimg.html
   + http://zenoss.github.io/zendev/installation.html#ubuntu
 
+
 _______________________________________________________________________________
 
-Extra Topics for 5X ZenPack Dev
----------------------------------
+*************************************
+Updating Zendev, Bare Bones Style
+*************************************
 
-Serviced Preliminaries
-=======================
+Updating Zendev is getting simpler. Eventually there will be a single button
+to push. Until that time try these directions:
 
-* You'll want to remove all non-ascii characters from a serviced command output. 
-  This is because **serviced service list** will output some
-  non-ascii "tree" characters that can make the awk error prone. Do it like this::
+* sudo stop docker
+* sudo umount $(grep 'aufs' /proc/mounts | awk '{print$2}' | sort -r)
+* sudo rm -fr /var/lib/docker
+* sudo reboot (Host System)
 
-     serviced service list |  tr -cd '\11\12\40-\176'
+  - Log back in to host system
 
-  Now use that output to capture any SERVICE_ID like this::
+* sudo start docker (if not started)
+* zendev selfupdate; zendev sync
+* cdz serviced && make clean && make
 
-     ID=$(serviced service list | grep zenmodeler | tr -cd '\11\12\40-\176' | awk '{print $2}')
+  - That will create devimg and pull in isvcs
+
+* zendev build devimg --clean
+* zendev serviced -dx
+
+  - This will start serviced and pull other images
+
+To cut-n-paste::
+
+     sudo stop docker                                                              
+     sudo umount $(grep 'aufs' /proc/mounts | awk '{print$2}' | sort -r)           
+     sudo rm -fr /var/lib/docker                                                   
+     sudo reboot
+     # Log in to host
+     sudo start docker
+     zendev selfupdate; zendev sync                                                
+     # Now time to build serviced and zendev
+     cdz serviced && make clean && make                                            
+     zendev build devimg --clean
+     zendev serviced -dx
+     
+______________________________________________________________________________
+
+****************************************
+Installing Zenpacks for Development
+****************************************
+
+In development we usually need to install the zenpacks in link-mode.
+To do this note that zenpacks in your zendev: ~/src/europa/src/zenpackas/*
+will be located in the container at /mnt/src/zenpacks/* . So here is the 
+process:
+
+#. Attach to the Zope Container. If you have more than one, use the UUID::
+
+    zendev attache Zope
+
+#. cd /mnt/src/zenpacks
+#. Make sure your zenpack is present
+#. zenpack --link --instal ZenPacks.zenoss.XYZ
+
+_______________________________________________________________________________
+
+Serviced Essentials
+---------------------
+Here are some Serviced topics are relevant.
+
+Getting Listings
+~~~~~~~~~~~~~~~~~
+
+You'll want to remove all non-ascii characters from a serviced command output. 
+This is because **serviced service list** will output some
+non-ascii "tree" characters that can make the awk error prone. Do it like this::
+
+   serviced service list |  tr -cd '\11\12\40-\176'
+
+Now use that output to capture any SERVICE_ID like this::
+
+   ID=$(serviced service list | grep zenmodeler | tr -cd '\11\12\40-\176' | awk '{print $2}')
+
+Attaching to Containers
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Serviced has a utility to attach to containers. By default the user you
+attach with is root, which is **BAD** if you intend to issue zenoss commands.
+
+You can attach to a container as root by simply doing::
+
+   serviced service attach <NAME>
+
+where <NAME> is one of the services (zendev, zeneventserver, Zope, etc..).
+But as mentioned above, doing anything that involves Zenoss will change the
+ownership of files in /opt/zenoss and potentially *BREAK* your install.
+
+Instead, place this bash function in your .bashrc::
+
+    attach()
+    {
+       local target=$1
+       serviced service attach $target su - zenoss
+    }
+
+then you can just do a::
+
+   attach zenhub
+
+You can also just do it manually::
+
+   serviced service attach zenhub su - zenoss
 
 Editing Serviced Service Definitions From CLI
-================================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you are unwilling or unable to use the GUI to edit services, this will be an
 invaluable tool for 5X. The method is simple, find the ID, and use serviced to
@@ -131,7 +231,7 @@ edit the serviced template.
 .. note:: **You must restart Zope to activate your changes.**
 
 Testing Modelers, Collectors, and Services
-================================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In the 4.X world we usually turn off the services and run them manually.
 This still can work in 5.X. First you want to turn off the container that
@@ -168,10 +268,13 @@ container like Zope. Here are the steps:
    [zenoss@mp6:~]: serviced service  stop  24x2cfz4b16ww8gakhgcgnv87
 
 Cross Mounted Directories!
-===========================
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Experimentation shows that there are several shared directories in the
-containers. If you edit core code in one container it is changed in other
+containers. Your core and zenpacks will be shared from your Zendev development
+directories.
+
+If you edit core code in one container it is changed in other
 containers that share this. This includes:
 
    +----------------------------+-----------------------+------------------+
@@ -187,7 +290,7 @@ containers that share this. This includes:
 
 
 Questions and Possible Answers
-================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * What is the best way to debug the container processes?
   Candidates include:
@@ -201,3 +304,34 @@ Questions and Possible Answers
   will start another zope in the foreground. whether that will enable you to
   hit that instance with a browser is unknown.
 
+* Can I Run Zenhub in the foreground?
+
+  According to the experts, NO. In fact, you can run zenhub in the foreground
+  using a different shell. However if you actually want other daemons to
+  connect to your new zenhub, that won't work.
+
+  In fact, we  don't know a solution to that.
+  Zenhub must be in in full contact with all the other containers via TCP port
+  connections. The fallback plan is us use a remote debugger like winpdb or dbgp.
+
+* You upgraded Go, but you can't build anymore. You get errors like this::
+
+   ../domain/metric.go:10: import
+   ~/src/europa/src/golang/pkg/linux_amd64/github.com/zenoss/glog.a:
+   object is [linux amd64 go1.2.1 X:none] expected [linux amd64 go1.3 X:precisestack]
+
+  The problem is that you have older libraries from prior version of go. You
+  need to clean out the older libraries and rebuild::
+
+      rm $GOPATH/pkg/* -Rf
+      cdz serviced
+      make clean
+      make
+
+* Your entire Zendev environment seems broken, and builds fail. What to do?
+
+  You may have broken your zendev environment by upgrading or getting some 
+  environment vars wrong. Check those env vars and try this::
+
+     zendev restore develop:wq
+    

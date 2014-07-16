@@ -5,6 +5,9 @@ Load-Templates Script
 This script is designed to take a yaml file as an input on the
 commandline and update a live instance of Zenoss.
 
+Seee this link first:
+http://docs.zenosslabs.com/en/latest/zenpack_development/monitoring_http_api/using_yaml_templates.html
+
 Note: load-templates requires PyYAML_ to be installed.
 
 The commandline accepts a single argument, the filename:

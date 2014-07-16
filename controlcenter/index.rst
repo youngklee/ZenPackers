@@ -11,9 +11,10 @@ few weeks.
    :maxdepth: 2
 
    general
-   Startup
-   Cleanup
-   Compiling
-   Updating
+   startup
+   cleanup
+   compiling
+   updating
    zenpack_dev.rst
+   dataflow.rst
 

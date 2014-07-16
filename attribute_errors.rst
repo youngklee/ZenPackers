@@ -3,7 +3,19 @@ Attribute Errors and Other Oddities
 ===================================
 
 We discuss various problems with attribute errors.
+Most of these errors come from a mismatch between the Zenpack software 
+and the ZODB database that *should* already have the data structure in place,
+but for some reason does not. Make sure you re-start Zenoss when you install
+your zenpacks, and **before** adding any devices to the Zenpack classes.
 
+
+Attribute Error After Installing a Device
+---------------------------------------------------------------
+
+ If you get an "Attribute Error" for a Zenpack zProperty after installing
+ a device to that Zenpack, you may have forgotten to restart Zenoss after
+ installing the Zenpack. The class structure and attributes are not yet
+ setup in ZODB.
 
 Attribute errors of the type "__of__"
 ---------------------------------------------------------------
@@ -24,5 +36,4 @@ Attribute errors of the type "__of__"
  second installation to work.
 
  If that fails you may have to use heavier methods like *zenwipe.sh*
-
 

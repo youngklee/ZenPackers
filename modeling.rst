@@ -45,10 +45,10 @@ Deleting Components from a Device
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. warning:: 
-   If you re-model a device or component, if the overall returned configuration
-   of those devices/components do not change, ZenHub will *NOT* trigger an
+   When you re-model a device or component, if the returned configuration
+   of those devices/components do not change, ZenHub will ***NOT*** trigger an
    event to update any device settings. I other words, if you want to re-model
-   and test a device/component, you **MUST** remove that device/component from
+   and test a device/component, you ***MUST*** remove that device/component from
    Zenoss before attempting any remodel it; otherwise you won't see any
    changes.
 
@@ -314,15 +314,64 @@ to the new class structure. There are 2 easy ways to fix this:
 Miscellaneous Tasks
 ---------------------
 
+Deleting a Device 
+~~~~~~~~~~~~~~~~~~~~
+
+Open zendmd and remove the device::
+
+   [zenoss@mp4]: zendmd
+   device = find('xyz.zenoss.loc')
+   device.deleteDevice()
+   commit()
+
+
 Deleting Components from a Device
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This might be needded if you want to remodel a device and don't have access
 to the GUI::
 
+    [zenoss@mp4]: zendmd
     device = find("mp6.zenoss.loc")
     for component in device.getDeviceComponents():
         component.getPrimaryParent()._delObject(component.id)
-
     commit()
+
+Finding Device Components with IInfo
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You an find a device's components using the IInfo interface::
+
+    [zenoss@mp4]: zendmd
+    device = find("mp6.zenoss.loc")
+    from Products.Zuul.interfaces import IInfo
+    deviceinfo = IInfo(device)
+    deviceinfo
+    <ControlCenter Info "mp6.zenoss.loc">
+    dir(deviceinfo)
+
+
+Get Templates and Thresholds
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can to the templates with a Facade::
+
+    tfc=getFacade('template')
+    tfc.getTemplates('/zport/dmd/Devices/DB2/devices/xyz.zenoss.loc/hosts/host-5/CP-Host')
+    <generator object _getTemplateLeaves at 0x7ddfcd0>
+
+    list = tfc.getTemplates('/zport/dmd/Devices/DB2/devices/xyz.zenoss.loc/hosts/host-5/CP-Host') 
+    for i in list:
+        print i
+    
+    <RRDTemplate Info "CP-Host..ControlCenter.devices.mp6.zenoss.loc.mp6.zenoss.loc">
+
+    list = tfc.getThresholds('/zport/dmd/Devices/DB2/devices/xyz.zenoss.loc/hosts/host-5/CP-Host') 
+    for i in list:
+        print i
+ 
+
+
+
+
 

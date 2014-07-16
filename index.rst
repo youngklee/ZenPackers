@@ -22,6 +22,7 @@ Topics for Zenpack Administration
    zenpack_release
    4x_daemons
    removing_zp
+   zendmd
 
 Topics for Zenpack Development
 =============================================

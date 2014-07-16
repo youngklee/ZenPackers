@@ -10,23 +10,22 @@ start_options[cleandeploy]="zendev serviced --reset --deploy"
 start_options[test]="date +%s"
 
 source $(zendev bootstrap)
+# You may have to adjust this next path...
 export PATH=$PATH:$HOME/src/europa/src/golang/src/github.com/zenoss/serviced/serviced
 # Remove this next one for multi-host
-export SERVICED_NOREGISTRY=1
 
 
 do_it()
 {
    local cmd=$1
-   export SERVICED_NOREGISTRY=1
    echo Starting: "${start_options[$cmd]} >& /tmp/$cmd"
-   sudo SERVICED_NOREGISTRY=1 ${start_options["$cmd"]} >& /tmp/"$cmd".log &
+   ${start_options["$cmd"]} >& /tmp/"$cmd".log &
 }
 
 stop_all()
 {
       echo "killlall serviced"
-      sudo killall serviced
+      killall serviced
 }
 
 really_stop_all()

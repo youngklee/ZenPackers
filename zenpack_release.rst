@@ -41,9 +41,9 @@ version, the second is the minor version, and the third is the revision.
 Set this version in the $ZP_HOME/setup.py file. We use these version number
 variables as examples::
 
-   * OLD=1.0.0       (The previous Master release)
-   * CURRENT=1.0.1   (The previous Master release)
-   * NEW=1.0.2       (The new Develop branch)
+   * OLD=3.0.1       (The previous Master release)
+   * CURRENT=3.0.2   (The new Develop -> Master release)
+   * NEW=3.0.3       (The new Develop branch)
 
 Tag the Release
 ----------------
@@ -62,6 +62,7 @@ Starting from the *develop* branch
 
 * git flow release start $CURRENT
 * Edit setup.py (set the correct version numbers)
+  - Typically you remove the "dev" in the version number
 * Commit:
 
   - For new release: git commit -a -m "release: version $CURRENT"
@@ -78,7 +79,7 @@ Starting from the *develop* branch
 
 * Commit again: 
 
-  - git commit -a -m "post release: $OLD -> ${CURRENT}dev"
+  - git commit -a -m "post release: $CURRENT -> ${NEW}dev"
 
 * git push
 * git push ---tags

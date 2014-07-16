@@ -144,6 +144,8 @@ Comparison of Git Branches
 
    git log --no-merges master..develop
 
+_______________________________________________________________________________
+
 =============================================================================
 Git Flow 
 =============================================================================
@@ -231,6 +233,37 @@ You can push it up to the hub like this::
 
   [bash]: git push -u origin feature/new
 
+Branches 'develop' and 'origin/develop' have diverged
+------------------------------------------------------
+
+You get these messages
+
+.. WARNING::
+
+    Branches 'develop' and 'origin/develop' have diverged.
+    Fatal: And branch 'develop' may be fast-forwarded.
+
+Somone has added to develop during your feature XYZ while you were sleeeping.
+This is common in a mulit-user environment. You will
+have to merge the two together. To solve this, you need to: 
+
+* Sync local develop with origin: checkout develop, pull from origin to
+  develop::
+    
+    git checkout develop && git pull origin
+
+* Rebase your feature on develop. You may have conflicts here if you're
+  unlucky::
+
+    git flow feature rebase XYZ
+
+
+* Check that nothing is broken::
+
+    git flow feature finish XYZ
+
+* If things are still broken, you may need to do some surgery
+
 Git Stash: Stashing Modified Files
 ------------------------------------
 
@@ -297,10 +330,10 @@ To set your push defaults you can edit your .gitconfig and put this option::
 
 * Note: See git-config man page: Search /push.default for more details
 
-Git 2.X Warnings and Errors
------------------------------
+Git 1.X and 2.X Warnings and Errors
+--------------------------------------
 
-You may you get this warning when trying to push a new branch to origin::
+* You may you get this warning when trying to push a new branch to origin::
 
    [bash]: git push
    fatal: The current branch develop has no upstream branch.
@@ -308,4 +341,39 @@ You may you get this warning when trying to push a new branch to origin::
 
        git push --set-upstream origin develop
 
-Its usually safe to follow this suggestion
+  Its usually safe to follow this suggestion
+
+_______________________________________________________________________________
+
+========================================================================
+Git Access For Zenossians
+========================================================================
+
+
+If you yourself need a change in user permissions, or are asking on someone
+else’s behalf, here’s how we’ll handle it going forward.
+
+#. Send an e-mail to github-owners@zenoss.com with a summary of your
+   request in the subject. Examples:
+
+   a. Need to grant pull and push access to foo_user to xyz_repo
+   #. Need to remove all access from former_employee
+   #. Need to enable write access for foo_user to all Zenoss repos
+
+#. The email body needs to include the following:
+
+   a. The user's full name
+   #. The user's email address
+   #. The user's github name
+   #. The user's department or role (why are they being added to the org in the first place?)
+   #. The user's skype name
+   #. The user's Docker Hub username, if available
+   #. Whether the user is an employee, or a contractor
+
+*Special note on the Owners group in Github*
+---------------------------------------------
+
+Owners have access to the billing information for the organization, and can
+create and delete teams.  Owners can also delete any repo, which is one of
+the main risks we want to contain by better managing GitHub permissions.
+

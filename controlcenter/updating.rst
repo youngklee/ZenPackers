@@ -53,29 +53,7 @@ You must update Europa too::
    git pull
    # Now rebuild/update the templates and re-deploy
 
-Update Templates Method I: Map the template to match Docker
--------------------------------------------------------------
-
-.. include:: version.rst
-
-Build the Template::
-
-   ZVER=daily-zenoss5-${IMAGE}:5.0.0_${BUILD}
-   cdz serviced
-   serviced template compile -map zenoss/zenoss5x,quay.io/zenossinc/$ZVER \
-   $(zendev root)/build/services/Zenoss.${IMAGE} > /tmp/x.tpl
-
-   # serviced template compile $(zendev root)/build/services/Zenoss.${IMAGE} > /tmp/x.tpl
-
-   ( you probably need to start serviced now )
-   TEMPLATE_ID=$(serviced template add /tmp/x.tpl)
-   serviced host add $IPADDR:4979 default
-
-Deploy Templates::
-
-   serviced template deploy $TEMPLATE_ID default zenoss
-
-Update Templates Method II (Possibly easier): Tag Docker image to match template
+Update Templates Method I (Preferred): Tag Docker image to match template
 ---------------------------------------------------------------------------------
 
 First you need the template for the generic service (Do this only once)::
@@ -96,5 +74,40 @@ You don't need to deploy the template since it already matches your docker image
 If this is your first time to deploy though::
 
    serviced template deploy $TEMPLATE_ID default zenoss
+
+Update Templates Method II (Hard Way): Map the template to match Docker
+--------------------------------------------------------------------------
+
+.. include:: version.rst
+
+Build the Template::
+
+   ZVER=daily-zenoss5-${IMAGE}:5.0.0_${BUILD}
+   cdz serviced
+   serviced template compile -map zenoss/zenoss5x,quay.io/zenossinc/$ZVER \
+   $(zendev root)/build/services/Zenoss.${IMAGE} > /tmp/x.tpl
+
+   # serviced template compile $(zendev root)/build/services/Zenoss.${IMAGE} > /tmp/x.tpl
+
+   ( you probably need to start serviced now )
+   TEMPLATE_ID=$(serviced template add /tmp/x.tpl)
+   serviced host add $IPADDR:4979 default
+
+Deploy Templates::
+
+   serviced template deploy $TEMPLATE_ID default zenoss
+
+
+Updating Platform-Build with Json-only Changes
+------------------------------------------------
+Surgically, you could remove the template from the UI, then compile/add
+template and start all services. You could also serviced service edit each of
+those services and restart those services after editting, which is probably
+easiest since there are only a few minor changes The incantation to
+compile/add::
+
+   serviced template compile \
+   -map zenoss/zenoss5x,zendev/devimg $(zendev root)/build/services/Zenoss.core \
+   | serviced template add
 
 
