@@ -11,10 +11,12 @@ few weeks.
    :maxdepth: 2
 
    general
+   templates.rst
    startup
    cleanup
    compiling
    updating
    zenpack_dev.rst
    dataflow.rst
+   cp-beta.rst
 

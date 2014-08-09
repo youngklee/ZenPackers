@@ -226,8 +226,68 @@ To see other examples:
 * ZenPacks.zenoss.PostgreSQL (simpler)
 * ZenPacks.zenoss.XenServer  (more complex)
 
-Miscellaneous Debugging
----------------------------
+Miscellaneous Tasks
+---------------------
+
+Deleting a Device 
+~~~~~~~~~~~~~~~~~~~~
+
+Open zendmd and remove the device::
+
+   [zenoss@mp4]: zendmd
+   device = find('xyz.zenoss.loc')
+   device.deleteDevice()
+   commit()
+
+
+Deleting Components from a Device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This might be needded if you want to remodel a device and don't have access
+to the GUI::
+
+    [zenoss@mp4]: zendmd
+    device = find("mp6.zenoss.loc")
+    for component in device.getDeviceComponents():
+        component.getPrimaryParent()._delObject(component.id)
+    commit()
+
+Finding Device Components with IInfo
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You an find a device's components using the IInfo interface::
+
+    [zenoss@mp4]: zendmd
+    device = find("mp6.zenoss.loc")
+    from Products.Zuul.interfaces import IInfo
+    deviceinfo = IInfo(device)
+    deviceinfo
+    <ControlCenter Info "mp6.zenoss.loc">
+    dir(deviceinfo)
+
+
+Get Templates and Thresholds
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can to the templates with a Facade::
+
+    tfc=getFacade('template')
+    tfc.getTemplates('/zport/dmd/Devices/DB2/devices/xyz.zenoss.loc/hosts/host-5/CP-Host')
+    <generator object _getTemplateLeaves at 0x7ddfcd0>
+
+    list = tfc.getTemplates('/zport/dmd/Devices/DB2/devices/xyz.zenoss.loc/hosts/host-5/CP-Host') 
+    for i in list:
+        print i
+    
+    <RRDTemplate Info "CP-Host..ControlCenter.devices.mp6.zenoss.loc.mp6.zenoss.loc">
+
+    list = tfc.getThresholds('/zport/dmd/Devices/DB2/devices/xyz.zenoss.loc/hosts/host-5/CP-Host') 
+    for i in list:
+        print i
+ 
+
+Miscellaneous Errors and Debugging
+-------------------------------------
 
 Error: No Classifier Found, KeyError
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -311,67 +371,49 @@ to the new class structure. There are 2 easy ways to fix this:
    [zenoss@mp4:/home/zenoss]: zenmodeler run -v10 -d mydev.zenoss.loc
 
 
-Miscellaneous Tasks
----------------------
+TypeError: unhashable type: 'dict'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Deleting a Device 
-~~~~~~~~~~~~~~~~~~~~
-
-Open zendmd and remove the device::
-
-   [zenoss@mp4]: zendmd
-   device = find('xyz.zenoss.loc')
-   device.deleteDevice()
-   commit()
+You may see and error of the following type::
 
 
-Deleting Components from a Device
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2014-07-28 17:02:51,109 ERROR zen.ZenModeler: : Traceback (most recent call last):
+    File "/opt/zenoss/Products/ZenHub/PBDaemon.py", line 85, in inner
+      return callable(*args, **kw)
+    File "/opt/zenoss/Products/ZenHub/services/ModelerService.py", line 132, in remote_applyDataMaps
+      result = inner(map)
+    File "/opt/zenoss/Products/ZenHub/services/ModelerService.py", line 128, in inner
+      return self._do_with_retries(action)
+    File "/opt/zenoss/Products/ZenHub/services/ModelerService.py", line 154, in _do_with_retries
+      return action()
+    File "/opt/zenoss/Products/ZenHub/services/ModelerService.py", line 127, in action
+      return bool(adm._applyDataMap(device, map))
+    File "/opt/zenoss/lib/python/ZODB/transact.py", line 44, in g
+      r = f(*args, **kwargs)
+    File "/opt/zenoss/Products/DataCollector/ApplyDataMap.py", line 213, in _applyDataMap
+      changed = self._updateRelationship(tobj, datamap)
+    File "/zenpacks/ZenPacks.zenoss.PythonCollector/ZenPacks/zenoss/PythonCollector/patches/platform.py", line 36, in _updateRelationship
+      return original(self, device, relmap)
+    File "/opt/zenoss/Products/DataCollector/ApplyDataMap.py", line 265, in _updateRelationship
+      objchange = self._updateObject(obj, objmap)
+    File "/opt/zenoss/Products/DataCollector/ApplyDataMap.py", line 378, in _updateObject
+      change = not isSameData(value, getter())
+    File "/opt/zenoss/Products/DataCollector/ApplyDataMap.py", line 53, in isSameData
+      x = set( tuple(sorted(d.items())) for d in x )
+    TypeError: unhashable type: 'dict'
+    : <no traceback>
 
-This might be needded if you want to remodel a device and don't have access
-to the GUI::
+The modeler is being passed data that is not a plain dict, string, int, or float. 
+In this case it sees a <dict> key of item and it doesn't know how to handle
+it. ie: You're trying to use a dict as a key to another dict or in a set.
 
-    [zenoss@mp4]: zendmd
-    device = find("mp6.zenoss.loc")
-    for component in device.getDeviceComponents():
-        component.getPrimaryParent()._delObject(component.id)
-    commit()
+The data you are passing to the modeler should be a dictionary type or a simple
+base type. 
 
-Finding Device Components with IInfo
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* One way to get around this is to ensure you are passing a dictionary object
+  to the modeler. 
 
-You an find a device's components using the IInfo interface::
-
-    [zenoss@mp4]: zendmd
-    device = find("mp6.zenoss.loc")
-    from Products.Zuul.interfaces import IInfo
-    deviceinfo = IInfo(device)
-    deviceinfo
-    <ControlCenter Info "mp6.zenoss.loc">
-    dir(deviceinfo)
-
-
-Get Templates and Thresholds
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can to the templates with a Facade::
-
-    tfc=getFacade('template')
-    tfc.getTemplates('/zport/dmd/Devices/DB2/devices/xyz.zenoss.loc/hosts/host-5/CP-Host')
-    <generator object _getTemplateLeaves at 0x7ddfcd0>
-
-    list = tfc.getTemplates('/zport/dmd/Devices/DB2/devices/xyz.zenoss.loc/hosts/host-5/CP-Host') 
-    for i in list:
-        print i
-    
-    <RRDTemplate Info "CP-Host..ControlCenter.devices.mp6.zenoss.loc.mp6.zenoss.loc">
-
-    list = tfc.getThresholds('/zport/dmd/Devices/DB2/devices/xyz.zenoss.loc/hosts/host-5/CP-Host') 
-    for i in list:
-        print i
- 
-
-
-
+* Another way is to serialize and pass in your data (perhaps with JSON).
+  Of course you'll have to de-serialize it when you need to use it.
 
 

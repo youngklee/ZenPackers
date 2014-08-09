@@ -277,16 +277,18 @@ directories.
 If you edit core code in one container it is changed in other
 containers that share this. This includes:
 
-   +----------------------------+-----------------------+------------------+
-   +----------------------------+-----------------------+------------------+
-   | Share Source               | Target Mount Point    | Mount Type       |
-   +============================+=======================+==================+
-   | $DEV:~/src/europa/src/core | /mnt/src/core         |   NFS (From Dev) |
-   +----------------------------+-----------------------+------------------+
-   | /mnt/src/core/Products     | /opt/zenoss/Products  |   Local          |
-   +----------------------------+-----------------------+------------------+
-   | /opt/zenoss/otherwise      | /opt/zenoss/otherwise |   Local          |
-   +----------------------------+-----------------------+------------------+
+   +-------------------------------+-----------------------+------------------+
+   +-------------------------------+-----------------------+------------------+
+   | Share Source                  | Target Mount Point    | Mount Type       |
+   +===============================+=======================+==================+
+   | $DEV:~/src/europa/src/core    | /mnt/src/core         |   NFS (From Dev) |
+   +-------------------------------+-----------------------+------------------+
+   | $DEV:~/src/europa/src/zenhome | /opt/zenoss           |   NFS (From Dev) |
+   +-------------------------------+-----------------------+------------------+
+   | /mnt/src/core/Products        | /opt/zenoss/Products  |   Local          |
+   +-------------------------------+-----------------------+------------------+
+   | /opt/zenoss/otherwise         | /opt/zenoss/otherwise |   Local          |
+   +-------------------------------+-----------------------+------------------+
 
 
 Questions and Possible Answers
@@ -306,11 +308,17 @@ Questions and Possible Answers
 
 * Can I Run Zenhub in the foreground?
 
-  According to the experts, NO. In fact, you can run zenhub in the foreground
+  According to the experts, Maybe. In fact, you can run zenhub in the foreground
   using a different shell. However if you actually want other daemons to
-  connect to your new zenhub, that won't work.
+  connect to your new zenhub, that won't work because of TCP port mismatch.
 
-  In fact, we  don't know a solution to that.
+  One solution is to attach to the Zenhub container, kill and start Zenhub
+  in the foreground in one step::
+
+     zendev attach zenhub
+     pid=$(pidof zenhub)
+     kill -9 $pid; zenhub run -v10
+  
   Zenhub must be in in full contact with all the other containers via TCP port
   connections. The fallback plan is us use a remote debugger like winpdb or dbgp.
 
@@ -335,3 +343,6 @@ Questions and Possible Answers
 
      zendev restore develop:wq
     
+* Unit Tests::
+
+  zendev devshell run tests

@@ -53,7 +53,7 @@ Documentation for ZenPackLib
 .. toctree::
    :maxdepth: 2
 
-   zpl_intro
+   zpl/index
 
 Topics for ControlCenter (ControlPlane) 
 =============================================
