@@ -8,6 +8,8 @@ developement.
 
 _______________________________________________________________________________
 
+.. _setupdevenv:
+
 Setting up the Development Environment
 --------------------------------------
 
@@ -30,20 +32,54 @@ to do the following items:
 
    ZENPACKS="PythonCollector ControlCenter"
 
+* .. note:: 
+
+   In order to have a valid Resmgr image, you'll need a LOT more
+   zenpacks built into into your image. This means that the above line MUST
+   look more like:
+
+   ZENPACKS=
+   \"PythonCollector
+   ControlCenter
+   ZenJMX
+   DynamicView
+   AdvancedSearch
+   EnterpriseCollector
+   EnterpriseSkin
+   DistributedCollector
+   ImpactServer
+   Impact
+   \"
+
 * Now rebuild the devimg::
 
    zendev build devimg
+
+* [Optional but recommended]: Pull docker images to avoid timeouts at deployment :
+
+   docker pull zenoss/serviced-isvcs:v16
+   docker pull zendev/devimg:latest
+   docker pull zenoss/hbase:v2
+   docker pull zenoss/opentsdb:v3
 
 * Now start serviced::
 
    zendev serviced --reset --deploy
 
-* Then after the app was deployed, but before starting it, change the Zope
-  startup command (in the GUI) to::
+* Then start the application (yes, case-insensitive)::
 
-   su - zenoss -c "PYTHONPATH=/opt/zenoss/lib/python /opt/zenoss/bin/zopectl fg"
+   zendev serviced service start zenoss.core 
+
+* Watch the services with::
+
+   watch serviced service status
+
+*  .. WARNING:: 
       
-* Then start the application in the GUI.
+      Don't use the GUI to start the application as that currently uses a lot
+      of resources. This will eat up a lot of CPU and memory just to render a
+      few graphs.
+
 
 * Now Zenoss will run on the same IP but with a virtual name: 'zenoss5x.*':
   So if your host is xyz.zenoss.loc, your Zenoss will run on::
@@ -52,7 +88,7 @@ to do the following items:
 
   You will need to either do one of two things to connect to Zenoss:
 
-  A. add an entry into your /etc/hosts::
+  A. Add an entry into your /etc/hosts::
 
       192.168.1.45 xyz.zenoss.loc zenoss5x.xyz.zenoss.loc hbase.xyz.zenoss.loc
 
@@ -217,7 +253,7 @@ edit the serviced template.
   looking at the GUI or re-editing the GUI.
 
 * Restart the Service. There are two ways, the first way in 
-  :download:`serviced.init <serviced.init>` is preferred by me:
+  the link :download:`serviced.init <serviced.init>` is preferred:
 
   -  Using the script::
         
@@ -345,4 +381,6 @@ Questions and Possible Answers
     
 * Unit Tests::
 
-  zendev devshell run tests
+     zendev devshell run tests
+
+

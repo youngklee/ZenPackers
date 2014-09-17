@@ -48,6 +48,12 @@ Basic Commands
    # ----------------------------------------------------------
      serviced template deploy $TEMPLATE_ID  default  zenmaster
 
+* .. NOTE:: Note on Resmgr
+
+     In order to compile and deploy Resmgr your Docker image must be created
+     correctly. This means that all the required Zenpacks must be compiled into
+     that Docker image. See the note in :ref:`setupdevenv`.
+
 Compile the Generic Template
 ---------------------------------------------------------------------------------
 

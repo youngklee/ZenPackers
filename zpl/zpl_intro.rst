@@ -200,14 +200,14 @@ __init__.py. The various properties you can change are:
 * base: Base Class Type
 * meta_type: Component-level identifier
 * label: The display label in the GUI
-* index_type: Catalog types for components: (field, keyword)
+* index_type: index types for component Catalog search efficiency: (field, keyword)
 * impacts: What this component impacts: can be list or list-output of a function
 * impacted_by: What is component is impacted by: can be list or function
 * order: Order of display in the grid
 
 ZPL Modeling Templates
 --------------------------
-Our modeling example has a very simplified version of the ControlPlane ZenPack.
+Our modeling example is a very simplified version of the ControlPlane ZenPack.
 The modeler itself grabs a pre-made ObjectMap from the helper class in
 $ZP_DIR/modeling:
 
@@ -415,4 +415,15 @@ This includes:
   class files outside of *__init__.py* ::
 
    from . import schema
+
+Impact in ZPL
+--------------
+
+Impact adapters are provided for in the ZPL. In order to get them to work
+you must provide the **impacts** and **impacted_by** attributes in the class
+specification in **__init.py__**. The values of these attributes can be one
+of the following:
+
+* A valid relationship name as defined in the YUML
+* A valid function that returns a list of component ID's.
 
