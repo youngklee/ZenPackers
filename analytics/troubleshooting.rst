@@ -46,9 +46,19 @@ Did you get a text file without error?
 
 Is there enough space on the hard drives to write files to?
 ===========================================================
+If no then get more space or edit the config file for daemon to point to a drive with more space.
+
+Is the log file complaining that it can’t hit the Hub?
+- **Yes:** `Check daemon connection with the HUB`_
+- **No:** `Does deamon try to upload a file at all?`_
 
 Check analytics availability from collector
 ===========================================
+Double check that the Analytics server is running by open a browser to the URL ``http://analytics_server_url/reporting``.
+
+If you got a text file than your analytics server is not reachable from collector and you should check firewalss proxies and ports.
+
+If you got an error, you should figure out why your Analytics server is not running.
 
 Is it model data in staging?
 ============================
@@ -69,3 +79,9 @@ Are some of the triggers state stuck in blocked? If yes, then something caused o
 repeatedly and the system finally gave up.  Fix the root cause and then update the QRTZ_TRIGGERS table to a state of WAITING and bounce the zenoss_analytics service.
 
 Go to the Analytics application server and look through the ``/opt/zenoss_analytics/zenoss_analytics.log`` file for glaring errors. **or ``/opt/zenoss_analytics/webapps/zenoss-analytics/WEB-INF/logs/jasperserver.log`` ????**
+
+Check daemon connection with the HUB
+====================================
+
+Does deamon try to upload a file at all?
+========================================
