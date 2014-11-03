@@ -52,6 +52,11 @@ Check analytics availability from collector
 
 Is it model data in staging?
 ============================
+- **No:** `Check triggers`_
+- **Yes:** Has it been in staging over 4 hours?
+
+  - **No:** We only check for Model batches ready to load into DB once every 4 hours.
+  - **Yes:** `Check triggers`_
 
 Check triggers
 ==============
@@ -60,7 +65,7 @@ Log into the reporting database and run this query a few times over a couple of 
 ``select trigger_name, from_unixtime(next_fire_time/1000) as next_time,
 from_unixtime(prev_fire_time/1000) as last_time, trigger_state from reporting.QRTZ_TRIGGERS;``
 
-Are some of the triggers state stuck in blocked?
+Are some of the triggers state stuck in blocked? If yes, then something caused one or more of the triggers to fail
+repeatedly and the system finally gave up.  Fix the root cause and then update the QRTZ_TRIGGERS table to a state of WAITING and bounce the zenoss_analytics service.
 
-- **Yes:** ``_
-- **No:** ``_
+Go to the Analytics application server and look through the ``/opt/zenoss_analytics/zenoss_analytics.log`` file for glaring errors. **or ``/opt/zenoss_analytics/webapps/zenoss-analytics/WEB-INF/logs/jasperserver.log`` ????**
