@@ -22,7 +22,7 @@ has three steps:
 
     ```sql
     update QRTZ_TRIGGERS
-    set next_run_time = now()
+    set next_fire_time = now()
     where trigger_name = "AggregateDataTrigger";
     ```
     
