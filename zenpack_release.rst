@@ -58,36 +58,54 @@ First we select a RELEASE name according to version name.
 Checkout Master and Develop
 -----------------------------
 
-Starting from the *develop* branch
+Starting from a clean *develop* branch:
 
-* git flow release start $CURRENT
-* Edit setup.py (set the correct version numbers)
+
+* Start the Release:
+
+  - git flow release start $CURRENT
+
+* Edit setup.py (set the correct version numbers):
+
   - Typically you remove the "dev" in the version number
+
 * Commit:
 
-  - For new release: git commit -a -m "release: version $CURRENT"
-  - For update release: git commit -a -m "release: version $OLD -> $CURRENT"
+  - For new release:
 
-* git flow release finish $CURRENT
+    * git commit -a -m "release: version $CURRENT"
 
-  - You will be prompted for the *Commit String*: "tag $CURRENT"
-  - You will automatically pushed back into develop
+  - For update release:
 
-* update develop setup.py
+    * git commit -a -m "release: version ${CURRENT}dev -> $CURRENT"
 
-  - with bump and dev: Example: $CURRENT -> ${NEW}dev
 
-* Commit again: 
+* Finish the release:
+
+  - git flow release finish $CURRENT
+
+    - **You will be prompted for the *Commit String*, enter:**
+
+      - "tag $CURRENT"
+
+  - *You will automatically pushed back into develop*
+
+* Update develop's setup.py: Bump number and add "dev":
+
+    - Example: $CURRENT -> ${NEW}dev
+
+* Commit again:
 
   - git commit -a -m "post release: $CURRENT -> ${NEW}dev"
 
-* git push
-* git push ---tags
 
-  - This tags the revision with a crpyto-secure key for reference
+* Push and tag the  revision with a crpyto-secure key for reference
+
+  - git push
+  - git push ---tags
 
 * Finally, push up the master changes:
-  
+
   - git checkout master
   - git push
   - git checkout develop
@@ -96,18 +114,22 @@ Starting from the *develop* branch
 Build the Master on Jenkins
 ---------------------------
 
-Got to master branch on Jenkins and build it.
+Go to the master branch on Jenkins and build it.
 This will look like
 
 http://jenkins.zenosslabs.com/job/master-ZenPacks.zenoss.XYZ/
 
 Parature
 --------------
-Note: Mere mortals are not typically allowed to do this step.
-      Consult Chet, John, or Rusty.
+
+.. Note::
+
+   Mere mortals are not typically allowed to do this step.
+   Consult Chet, John C, Rusty, or the equivalent.
 
 Method A: Required
 ~~~~~~~~~~~~~~~~~~~
+
 * Email the ZP to Rusty: rwilson@zenoss.com
 
 Method B: Deprecated (Do this if you are suicidal).
