@@ -89,18 +89,26 @@ service. They are:
        ..... create relationmaps between object instances .....
        return relationmaps
 
-We talk more in the sections below about this.
 
-Creating Containing Relation Maps from Modeled Data
+Major Concepts of Modeling
 ---------------------------------------------------
+There are two major parts of Modeling that you must always keep in mind:
 
-Creation of the Relation Maps require several pieces:
+* Model Definition
+  
+  - Base classs must define relationships
+  - Both Containing and Non-Containing are possible
+  - The relationship ***MUST*** be created in both directions
+    
 
-* Base class instances must have containing relationships defined
-* Modeler must correctly insert the components into the relationships defined.
+* Model Mapping/Creation/Population
+
+  - Modeler must correctly associate the devices and component
+  - The maps are created/defined in one direction only!
+  - ApplyDataMap() takes care of the bi-directional associations
 
 
-Base Class Relations Definition
+Model Definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In our example we'll use two classes: Instance and TableSpace from the Oracle
@@ -144,7 +152,7 @@ off of Instance. We need two defining relation:
                              ),
         ),)
 
-Modeler Class Relations Insertion
+Model Mapping/Creation/Population
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 We now discuss what is in your modeler (in our example, Instance) class.
 
