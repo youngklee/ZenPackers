@@ -10,12 +10,12 @@ life easier.
 In zendev these templates correspond to entire folders of templates.
 They live in::
 
-   ~/src/europa/build/services
+   $(zendev root)/src/service/services
 
 You may see these folders which hold many other subfolders::
    
    drwxrwxr-x 19 zenoss zenoss 4096 Aug  7 20:40 Zenoss.core
-   drwxrwxr-x 17 zenoss zenoss 4096 Aug  7 20:40 Zenoss.core.lite
+   drwxrwxr-x 17 zenoss zenoss 4096 Aug  7 20:40 Zenoss.core
    drwxrwxr-x 21 zenoss zenoss 4096 Aug  7 20:40 Zenoss.resmgr
    drwxrwxr-x 19 zenoss zenoss 4096 Aug  7 20:40 Zenoss.resmgr.lite
 
@@ -63,8 +63,7 @@ the same tag (as the template) than to change the numbers on the templates.
 
 Compile the template::
 
-   export IMAGE=Zenoss.core.lite
-   serviced template compile $(zendev root)/build/services/Zenoss.${IMAGE} > /tmp/Zenoss.xxx.tpl
+   serviced template compile $(zendev root)/src/services/services/Zenoss.core > /tmp/Zenoss.core.tpl
    serviced.init start
    TEMPLATE_ID=$(serviced template add /tmp/Zenoss.xxx.tpl)
 
@@ -78,10 +77,9 @@ are already created with tags, and you don't want to mess with those.
 
 Build the Template::
 
-   export IMAGE=Zenoss.core.lite
    cdz serviced
    serviced template compile -map zenoss/zenoss5x,zendev/devimg \
-   $(zendev root)/build/services/Zenoss.${IMAGE} > /tmp/xxx.tpl
+   $(zendev root)/src/service/services/Zenoss.core > /tmp/xxx.tpl
    TEMPLATE_ID=$(serviced template add /tmp/xxx.tpl)
 
 Deploy Templates::
@@ -98,7 +96,7 @@ easiest if there are only a few minor changes. The incantation to
 compile/add (with template mapping)::
 
    serviced template compile -map zenoss/zenoss5x,zendev/devimg \
-      $(zendev root)/build/services/Zenoss.core \
+      $(zendev root)/src/service/services/Zenoss.core \
       | serviced template add
 
 But Wait Kids! Thats not all!
@@ -113,11 +111,11 @@ in one command::
 
    liten_up_dude()
    {
-      IMAGE=core.lite
+      IMAGE=core
 
       # Compile the Template and *MAP* it to the right zendev image:
       serviced template compile -map zenoss/zenoss5x,zendev/devimg \
-         $(zendev root)/build/services/Zenoss.${IMAGE} > \
+         $(zendev root)/src/service/services/Zenoss.${IMAGE} > \
          /tmp/Zenoss.xxx.tpl
 
       # Add the Template to serviced definitions
@@ -135,9 +133,9 @@ in one command::
       serviced service remove $CORE_ID
       unset CORE_ID
 
-      # Now you should use the GUI to start the Zenoss.core.lite application
+      # Now you should use the GUI to start the Zenoss.core application
       # Warning! Untested: You can also add that to this function if you like::
-      # LITE_ID=$(serviced service list | grep -E 'Zenoss.core.lite' \
+      # LITE_ID=$(serviced service list | grep -E 'Zenoss.core' \
       #    | tr -cd '\11\12\40-\176' | awk '{print $2}')
       # serviced service start $LITE_ID
 
@@ -146,14 +144,14 @@ in one command::
 .. WARNING::
 
    Make sure you *Don't* start or use the standard Zenoss.core application
-   before starting the Zenoss.core.lite application. Experiments have shown
+   before starting the Zenoss.core application. Experiments have shown
    that there is some docker image mismatches that happen as a result of
-   starting Zenoss.core, stopping it, and starting Zenoss.core.lite.
+   starting Zenoss.core, stopping it, and starting Zenoss.core.
 
 So here is the workflow scenario for this tool:
 
 * zendev build devimg
 * zendev serviced -dx
 * liten_up_dude
-* Go into GUI, select *Zenoss.core.lite*, Start it
+* Go into GUI, select *Zenoss.core*, Start it
 

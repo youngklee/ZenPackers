@@ -14,6 +14,31 @@ General Links for Zendev
 * http://zenoss.github.io/zendev
 * http://zenoss.github.io/zendev/devimg.html
 
+Development Workflow Cycle
+===========================
+
+Normally, once you deploy zendev, your workflow is very much the same
+as it always is:
+
+* Create a feature against develop
+* git flow feature publish (once only)
+* Fix Fix Fix, Commit, Push
+* Pull Requests etc... 
+* Someone merges
+* All rejoice and continue!
+
+However, during release we have a special workflow in Zendev:
+
+* zendev restore europa-release
+* cdz serviced
+* CURRENTBRANCH=$(git rev-parse --abbrev-ref HEAD)
+* git flow feature start CC-1234 $CURRENTBRANCH
+* git flow feature publish (once only)
+* [...CODE FIX CODE FIX, COMMIT, push...]
+* Someone merges
+* All rejoice and continue!
+
+
 General ZenDev Tasks
 ===========================
 

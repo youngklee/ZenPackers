@@ -5,7 +5,7 @@ Commandline Monitoring For Slackers (ZP Developers)
 Description
 ------------------------------------------------------------------------------
 
-Zenpacks need to be monitored for debugging. Thats all you need to know!
+You can model, collect, and analyze everything from the commandline.
 
 Prerequisites
 ------------------------------------------------------------------------------
@@ -65,13 +65,14 @@ You really need to use it!
    Use TAB-TAB to see a list of zendmd related commands.
    Tab completion also works for objects -- hit tab after an object name and '.'
    (eg dmd. + tab-key).
+
    >>> device = find("test-oracle-1.zenoss.loc")
    >>> device.oracle_instances()[0]
    <Instance at /zport/dmd/Devices/Server/Linux/devices/test-oracle-1.zenoss.loc/oracle_instances/orainst-XE>
-   >>>
+
    >>> device.oracle_instances()[0].instanceRole
    'PRIMARY_INSTANCE'
-   >>>
+
    >>> device.Devices.setZenProperty("zWinPerfCycleSeconds",300)
    >>> a=device.getProperty("zWinPerfCycleSeconds")
    >>> a
@@ -81,9 +82,5 @@ You really need to use it!
    >>> exit()
   [zenoss@cdev:~/bin]:
 
-
-
-
-  
 
 

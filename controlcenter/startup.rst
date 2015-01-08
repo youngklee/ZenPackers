@@ -73,7 +73,7 @@ Compile Template:
 -------------------
 ::
 
-   serviced template compile $(zendev root)/build/services/Zenoss.${IMAGE} > /tmp/Zenoss.xxx.tpl
+   serviced template compile $(zendev root)/src/service/services/Zenoss.${IMAGE} > /tmp/Zenoss.xxx.tpl
 
 ( or pipe it into the following command )
  

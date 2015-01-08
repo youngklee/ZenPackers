@@ -4,7 +4,7 @@ Installing Impact in Zendev
 * Pull and tag latest impact image (Currently 121)::
 
    # Note: Need to use an user that has docker privileges
-   IMPACT_IMAGE_TAG=4.2.6.70.0_121
+   export IMPACT_IMAGE_TAG=4.2.6.70.0_121
    docker pull zenoss/impact-unstable:$IMPACT_IMAGE_TAG
    docker tag zenoss/impact-unstable:$IMPACT_IMAGE_TAG zenoss/impact-unstable:latest
 
@@ -17,22 +17,44 @@ Installing Impact in Zendev
   zencatalogservice zeneventserver ; do serviced service start $svc ; done
 
 * Install Impact ZenPacks:
+
   Note: 
 
-   - The zenpacks are in $zendev/src/enterprise-zenpacks/ . Call it $EZ
    - You must install them in link mode
    - You should use the devshell environment: zendev devshell
+   - ***CRITICAL***: Make sure that ImpactServer and Impact zenpacks are on the
+     develop branch. Zendev may put them on master by default.
+
+   - Enterprise zenpacks are in /mnt/src/enterprise-zenpacks/, aka: $EZ::
+
+     export EZ=/mnt/src/enterprise_zenpacks
+
+   - Normal zenpacks are in /mnt/src/zenpacks/, aka: $ZP ::
+     
+     export ZP=/mnt/src/zenpacks
+
 
    The install now::
 
-      zenpack --link --install $EZ/ZenPacks.zenoss.ZenJMX
+      zenpack --link --install $ZP/ZenPacks.zenoss.ZenJMX
+
       zenpack --link --install $EZ/ZenPacks.zenoss.DynamicView
       zenpack --link --install $EZ/ZenPacks.zenoss.AdvancedSearch
       zenpack --link --install $EZ/ZenPacks.zenoss.EnterpriseCollector
       zenpack --link --install $EZ/ZenPacks.zenoss.EnterpriseSkin
       zenpack --link --install $EZ/ZenPacks.zenoss.DistributedCollector
       zenpack --link --install $EZ/ZenPacks.zenoss.ImpactServer
-      zenpack --link --install $EZ/ZenPacks.zenoss.Impact
+
+* Before you install the Impact zenpack, you **MUST** have ImpactServer 
+  running::
+
+   serviced service start Impact
+
+* Now you can finally install the Impact zenpack::
+
+   zenpack --link --install $EZ/ZenPacks.zenoss.Impact
+
+* Optionally install any zenpacks you are testing under Impacts
 
 * Restart zenoss:
 

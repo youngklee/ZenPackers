@@ -33,6 +33,7 @@ This is the documentation for Inter-Galactic ZenPack Developers
    :maxdepth: 2
 
    devel_general
+   analytics/index
    events
    events_special
    gui_properties
