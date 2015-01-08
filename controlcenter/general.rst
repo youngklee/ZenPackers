@@ -30,7 +30,7 @@ as it always is:
 However, during release we have a special workflow in Zendev:
 
 * zendev restore europa-release
-* cdz serviced
+* [ cd to right repo ]
 * CURRENTBRANCH=$(git rev-parse --abbrev-ref HEAD)
 * git flow feature start CC-1234 $CURRENTBRANCH
 * git flow feature publish (once only)
