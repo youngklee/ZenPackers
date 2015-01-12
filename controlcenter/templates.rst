@@ -10,7 +10,8 @@ life easier.
 In zendev these templates correspond to entire folders of templates.
 They live in::
 
-   $(zendev root)/src/service/services
+   export ZENDEV_ROOT=$(zendev root)
+   $ZENDEV_ROOT/src/service/services
 
 You may see these folders which hold many other subfolders::
    
@@ -63,7 +64,7 @@ the same tag (as the template) than to change the numbers on the templates.
 
 Compile the template::
 
-   serviced template compile $(zendev root)/src/services/services/Zenoss.core > /tmp/Zenoss.core.tpl
+   serviced template compile $ZENDEV_ROOT/src/services/services/Zenoss.core > /tmp/Zenoss.core.tpl
    serviced.init start
    TEMPLATE_ID=$(serviced template add /tmp/Zenoss.xxx.tpl)
 
@@ -79,7 +80,7 @@ Build the Template::
 
    cdz serviced
    serviced template compile -map zenoss/zenoss5x,zendev/devimg \
-   $(zendev root)/src/service/services/Zenoss.core > /tmp/xxx.tpl
+   $ZENDEV_ROOT/src/service/services/Zenoss.core > /tmp/xxx.tpl
    TEMPLATE_ID=$(serviced template add /tmp/xxx.tpl)
 
 Deploy Templates::
@@ -96,11 +97,11 @@ easiest if there are only a few minor changes. The incantation to
 compile/add (with template mapping)::
 
    serviced template compile -map zenoss/zenoss5x,zendev/devimg \
-      $(zendev root)/src/service/services/Zenoss.core \
+      $ZENDEV_ROOT/src/service/services/Zenoss.core \
       | serviced template add
 
-But Wait Kids! Thats not all!
--------------------------------
+UtilityScripts: But Wait Folks! Thats not all!
+---------------------------------------------
 
 Yes, thats right folks, we've worked hard to make life easier for you.
 How easy you may ask? So easy, you can do it with one hand tied behind
@@ -115,7 +116,7 @@ in one command::
 
       # Compile the Template and *MAP* it to the right zendev image:
       serviced template compile -map zenoss/zenoss5x,zendev/devimg \
-         $(zendev root)/src/service/services/Zenoss.${IMAGE} > \
+         $ZENDEV_ROOT/src/service/services/Zenoss.${IMAGE} > \
          /tmp/Zenoss.xxx.tpl
 
       # Add the Template to serviced definitions
@@ -154,4 +155,115 @@ So here is the workflow scenario for this tool:
 * zendev serviced -dx
 * liten_up_dude
 * Go into GUI, select *Zenoss.core*, Start it
+
+Modifying Service Templates in Europa
+--------------------------------------
+
+Modifying templates may be required to add functionality to your zenpacks
+or to core. Often, the containers have a very restricted access in order for
+good security and simplicity. 
+
+
+Modfying the Default Templates
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If the service you are modifying is in the default template, you
+will have to ensure that *ALL* the template definitions have that
+change, otherwise someone will deploy a service that is missing
+a requirement. Make sure that the template is modified in folder.
+The Current Zendev has these template folders:
+
+ +--------------------+-------------------------------------------------------+
+ +--------------------+-------------------------------------------------------+
+ | Template           | Location                                              | 
+ +--------------------+-------------------------------------------------------+
+ +====================+=======================================================+
+ | Zenoss.core        | $ZENDEV_ROOT/src/service/services/Zenoss.core/        | 
+ +--------------------+-------------------------------------------------------+
+ | Zenoss.core.full   | $ZENDEV_ROOT/src/service/services/Zenoss.core.full/   | 
+ +--------------------+-------------------------------------------------------+
+ | Zenoss.resmgr      | $ZENDEV_ROOT/src/service/services/Zenoss.resmgr/      | 
+ +--------------------+-------------------------------------------------------+
+ | Zenoss.resmgr.lite | $ZENDEV_ROOT/src/service/services/Zenoss.resmgr.lite/ |
+ +--------------------+-------------------------------------------------------+
+ | Zenoss.ucspm       | $ZENDEV_ROOT/src/service/services/Zenoss.ucspm/       |
+ +--------------------+-------------------------------------------------------+
+ | Zenoss.ucspm.lite  | $ZENDEV_ROOT/src/service/services/Zenoss.ucspm.lite/  |
+ +--------------------+-------------------------------------------------------+
+  
+Each of these will be modified by adding the following to the Endpoint list::
+
+    {
+        "Name": "rabbitmq",
+        "Application": "rabbitmq",
+        "PortNumber": 5672,
+        "Protocol": "tcp",
+        "Purpose": "import"
+    }
+
+Once the change is made you can compile any of these templates and deploy
+just as we have outline above.
+
+
+Adding RabbitMQ Ports to the Zenpython (PythonCollector) Zenpack
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If you are adding to a service that is bundle with a Zenpack,
+you must provide extra templating instructions to Zenoss so that any
+installation of that Zenpack will guarantee to have the required services
+you need.
+
+In our example,
+ZenPacks.zenoss.OpenStackInfrastructure requires that zenpython be able to 
+poll the RabbitMQ container. This was not available when we started.
+We start by reviewing https://github.com/zenoss/ZenPacks.zenoss.ExampleService
+which outlines the way to add template support to a zenpack. We'll try to only
+outline the critical components that supplement that document.
+
+* First create folders in $ZP_DIR of ZenPacks.zenoss.PythonCollector::
+
+   su - zenoss
+   cd ZenPacks.zenoss.PythonCollector/ZenPacks/zenoss/PythonCollector
+   mkdir service_definition
+   mkdir -p service_definition/-CONFIGS-/opt/zenoss/etc
+
+* Copy the service configuration file into the right place::
+
+   cp /tmp/zenpython.conf service_definition/-CONFIGS-/opt/zenoss/etc/
+
+* Now copy the template into place::
+   
+   cp Zenoss.core/localhost/localhost/zenpython/service.json service_definition/
+
+* You now must change a few key items in this template (be sure to add quotes_):
+
+   - servicePath:       /hub/collector
+   - serviceDefinition: (Encapsulate the entire contents of original services.json)
+   - serviceDefinition  (Make it somewhat different from standard)
+   - ConfigFiles::
+
+               "/opt/zenoss/etc/zenpython.conf": {
+               "FileName": "/opt/zenoss/etc/zenpython.conf",
+               "Owner": "zenoss:zenoss",
+               "Permissions": "0664"
+               }
+
+   - Endpoints (Add)::
+
+       {
+           "Name": "rabbitmq",
+           "Application": "rabbitmq",
+           "PortNumber": 5672,
+           "Protocol": "tcp",
+           "Purpose": "import"
+       }
+
+   - ImageID:  (set to empty string to be overridden later)
+
+
+* Once all this is in place, you need to test it by removing and reinstalling
+  the ZP. Then you can check the service definition in Zendev::
+
+    serviced service edit zenpython
+
+  If you see your changes, and a nice ImageID, then all is probably well.
 
