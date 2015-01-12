@@ -265,5 +265,6 @@ outline the critical components that supplement that document.
 
     serviced service edit zenpython
 
-  If you see your changes, and a nice ImageID, then all is probably well.
+  If you see your changes, and a nice ImageID, then all is hopefully well.
+  See the actual ZenPacks.zenoss.PythonCollector repo for more detail.
 
