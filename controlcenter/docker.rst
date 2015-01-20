@@ -26,31 +26,31 @@ If you find yourself needing to down grade docker:
 
 #. Stop all services::
 
-   service service stop zenoss.core
+    service service stop zenoss.core
    
 #. Stop/Kill/Maim serviced::
 
-   service serviced stop (if running Release Images)
-   killall serviced && killall -9 serviced (Otherwise)
+    service serviced stop (if running Release Images)
+    killall serviced && killall -9 serviced (Otherwise)
 
 #. Stop Docker::
 
-   service docker stop
+    service docker stop
 
 #. Remove docker (as root)::
 
-   apt-get purge lxc-docker\\*
-   apt-get purge docker
+    apt-get purge lxc-docker\*
+    apt-get purge docker
 
 #. Install the new (or older) docker::
 
-   apt-get install lxc-docker-1.3.3
+    apt-get install lxc-docker-1.3.3
 
 #. Restart Docker and Service::
 
-   service docker start
-   service serviced start (If running Release Images)
-   zendev serviced >& /tmp/serviced.log & (Otherwise)
+    service docker start
+    service serviced start (If running Release Images)
+    zendev serviced >& /tmp/serviced.log & (Otherwise)
 
 #. Start your Zenoss services if required
 
