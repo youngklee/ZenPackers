@@ -26,7 +26,7 @@ If you find yourself needing to down grade docker:
 
 #. Stop all services::
 
-    service service stop zenoss.core
+    serviced service stop zenoss.core
    
 #. Stop/Kill/Maim serviced::
 
@@ -37,14 +37,14 @@ If you find yourself needing to down grade docker:
 
     service docker stop
 
-#. Remove docker (as root)::
+#. Remove docker::
 
-    apt-get purge lxc-docker\*
-    apt-get purge docker
+    sudo apt-get purge lxc-docker\*
+    sudo apt-get purge docker
 
 #. Install the new (or older) docker::
 
-    apt-get install lxc-docker-1.3.3
+    sudo apt-get install lxc-docker-1.3.3
 
 #. Restart Docker and Service::
 
