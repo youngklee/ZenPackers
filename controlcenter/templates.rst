@@ -1,5 +1,5 @@
 ==========================
-Templates
+Working with Templates
 ==========================
 
 Templates form the core of the Serviced service definitions.

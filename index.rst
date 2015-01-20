@@ -23,6 +23,7 @@ Topics for Zenpack Administration
    4x_daemons
    removing_zp
    zendmd
+   triage_checklist
 
 Topics for Zenpack Development
 =============================================

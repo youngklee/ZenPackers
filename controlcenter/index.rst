@@ -1,5 +1,6 @@
 .. Serviced/ControlPlane/ControlCenter Rough Guide
 
+=============================================
 Welcome to ControlCenter!
 =============================================
 
@@ -11,15 +12,32 @@ few weeks.
    :maxdepth: 2
 
    general
-   templates.rst
+   dataflow
+
+=============================================
+Setup and Configuration
+=============================================
+
+.. toctree::
+   :maxdepth: 2
+
    startup
    cleanup
    compiling
    updating
-   zenpack_dev.rst
-   dataflow.rst
    cp-beta.rst
 
+=============================================
+Zenpack Development 
+=============================================
+
+.. toctree::
+   :maxdepth: 2
+
+   zenpack_dev
+   templates
+
+=============================================
 Special Topics: ControlCenter and Others
 =============================================
 

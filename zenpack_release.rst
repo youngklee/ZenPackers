@@ -11,6 +11,10 @@ The steps are:
 * Release to Master
 * Publish the Documentation on Wiki
 
+.. warning::
+
+  Do not cut-and-paste from the HTML of this document. The HTML contains
+  control characters that will corrupt your git commands!
 
 3rd Party Software Approval
 --------------------------------
@@ -44,9 +48,6 @@ variables as examples::
    * OLD=3.0.1       (The previous Master release)
    * CURRENT=3.0.2   (The new Develop -> Master release)
    * NEW=3.0.3       (The new Develop branch)
-
-Tag the Release
-----------------
 
 Release to Master
 ------------------
@@ -102,7 +103,7 @@ Starting from a clean *develop* branch:
 * Push and tag the  revision with a crpyto-secure key for reference
 
   - git push
-  - git push ---tags
+  - git push --tags  ( <- thats a double-dash in the source docs! )
 
 * Finally, push up the master changes:
 
@@ -149,5 +150,4 @@ Method B: Deprecated (Do this if you are suicidal).
 
 * Copy download link (or number)
 * Paste that link to the approproate place in the Wiki
-
 

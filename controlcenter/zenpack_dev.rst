@@ -1,12 +1,16 @@
-*********************************************
-ZenPack Development Setup in ControlCenter
-*********************************************
+ZenPack Development: Setup in ControlCenter
+================================================
 
 Welcome to the Control Center cetnral for Zenpackers! The following sections
 are hoped to bring clarity and peace to you in your quest for ZenPack
 developement.
 
-_______________________________________________________________________________
+First let us establish the base directory for Zendev::
+
+    export ZENDEV_ROOT=$(zendev root)
+    $ZENDEV_ROOT/src/service/services
+
+This folder is typically in $HOME/src/europa, but it could be elsewhere.
 
 .. _setupdevenv:
 
@@ -24,11 +28,11 @@ to do the following items:
 
 * cd into your zendev home folder's Zenpack folder::
 
-    cd ~/src/europa/src/zenpacks/
+    cd $ZENDEV_ROOT/src/zenpacks/
 
 * Now git clone all the ZenPacks you need for your project
 * Edit the following file and add (or subtract) the Zenpack names from the
-  ZENPACKS environment var ZENPACKS in ~/src/europa/build/devimg/install_core.sh::
+  ZENPACKS environment var ZENPACKS in $ZENDEV_ROOT/build/devimg/install_core.sh::
 
    ZENPACKS="PythonCollector ControlCenter"
 
@@ -127,9 +131,8 @@ to do the following items:
 
 _______________________________________________________________________________
 
-*************************************
 Updating Zendev, Bare Bones Style
-*************************************
+-----------------------------------
 
 Updating Zendev is getting simpler. Eventually there will be a single button
 to push. Until that time try these directions:
@@ -168,12 +171,11 @@ To cut-n-paste::
      
 ______________________________________________________________________________
 
-****************************************
 Installing Zenpacks for Development
-****************************************
+--------------------------------------------
 
 In development we usually need to install the zenpacks in link-mode.
-To do this note that zenpacks in your zendev: ~/src/europa/src/zenpackas/*
+To do this note that zenpacks in your zendev: $ZENDEV_ROOT/src/zenpackas/*
 will be located in the container at /mnt/src/zenpacks/* . So here is the 
 process:
 
@@ -245,8 +247,10 @@ edit the serviced template.
 
     ZOPE_SERVICE_ID=$(serviced service list | grep Zope | awk '{print $2}')
 
-* Now edit that service like this::
+* To edit the Zope service definition::
 
+    serviced service edit zope
+    # or the old fashioned way:
     serviced service edit $ZOPE_SERVICE_ID
 
 * Once you have finished editing the service you can verify it by either
@@ -266,31 +270,39 @@ edit the serviced template.
 
 .. note:: **You must restart Zope to activate your changes.**
 
+Monitoring Logs in Zendev
+---------------------------------------------
+Monitoring logs in Zendev is easier than one might think. 
+That is because the entire Zenoss core folder is bind-mounted 
+from the Zendev environment across **ALL** Zope containers.
+You don't need to access *ANY* container to see them.
+
+The logs are located in: $ZENDEV_ROOT/zenhome/log/ .
+If Serviced and Zenoss are active you should see
+these files being updated often.
+
+
 Testing Modelers, Collectors, and Services
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------------------
 
 In the 4.X world we usually turn off the services and run them manually.
-This still can work in 5.X. First you want to turn off the container that
+This still can work in 5.X. First you must stop the container that
 has the service you want to test, then you run it manually from another
 container like Zope. Here are the steps:
 
 * Identify the service you want to test, and grab the ID.
   We use  **zenmodeler** for example::
 
-   [zenoss@mp6:~]: serviced service list | grep zenmodeler
-     > zenmodeler  24x2cfz4b16ww8gakhgcgnv87  1  ...etc..
-
-
 * Turn off the **zenmodeler** container in the GUI or manually::
 
-    [zenoss@mp6:~]: serviced service  stop 24x2cfz4b16ww8gakhgcgnv87
+    [zenoss@mp6:~]: serviced service  stop zenmodeler
 
 * Attach to another service like Zope and run zenmodeler manually::
 
     [zenoss@mp6:~]: zendev attach Zope
       Yo, you can probably just use serviced attach
 
-    (zenoss)[root@88e2a452751e /]# zenmodeler run -d xyz.zenoss.loc -v10
+    [root@zope /]# zenmodeler run -d xyz.zenoss.loc -v10
 
       2014-07-05 00:56:58 DEBUG zen.ZenModeler: Run in foreground, starting immediately.
       2014-07-05 00:56:58 DEBUG zen.ZenModeler: Starting PBDaemon initialization
@@ -300,11 +312,11 @@ container like Zope. Here are the steps:
 * When you are finished with your debug session just exit the container
   and restart your zenmodeler service (if you want it to run)::
 
-   (zenoss)[root@88e2a452751e /]# exit
+   (zenoss)[root@zope /]# exit
    [zenoss@mp6:~]: serviced service  stop  24x2cfz4b16ww8gakhgcgnv87
 
 Cross Mounted Directories!
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------------------
 
 Experimentation shows that there are several shared directories in the
 containers. Your core and zenpacks will be shared from your Zendev development
@@ -317,9 +329,9 @@ containers that share this. This includes:
    +-------------------------------+-----------------------+------------------+
    | Share Source                  | Target Mount Point    | Mount Type       |
    +===============================+=======================+==================+
-   | $DEV:~/src/europa/src/core    | /mnt/src/core         |   NFS (From Dev) |
+   | $DEV:$ZENDEV_ROOT/src/core    | /mnt/src/core         |   NFS (From Dev) |
    +-------------------------------+-----------------------+------------------+
-   | $DEV:~/src/europa/src/zenhome | /opt/zenoss           |   NFS (From Dev) |
+   | $DEV:$ZENDEV_ROOT/zenhome     | /opt/zenoss           |   NFS (From Dev) |
    +-------------------------------+-----------------------+------------------+
    | /mnt/src/core/Products        | /opt/zenoss/Products  |   Local          |
    +-------------------------------+-----------------------+------------------+
@@ -328,7 +340,7 @@ containers that share this. This includes:
 
 
 Questions and Possible Answers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------------------
 
 * What is the best way to debug the container processes?
   Candidates include:
@@ -361,7 +373,7 @@ Questions and Possible Answers
 * You upgraded Go, but you can't build anymore. You get errors like this::
 
    ../domain/metric.go:10: import
-   ~/src/europa/src/golang/pkg/linux_amd64/github.com/zenoss/glog.a:
+   $ZENDEV_ROOT/src/golang/pkg/linux_amd64/github.com/zenoss/glog.a:
    object is [linux amd64 go1.2.1 X:none] expected [linux amd64 go1.3 X:precisestack]
 
   The problem is that you have older libraries from prior version of go. You
