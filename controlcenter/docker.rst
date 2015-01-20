@@ -39,7 +39,7 @@ If you find yourself needing to down grade docker:
 
 #. Remove docker (as root)::
 
-   apt-get purge lxc-docker\*
+   apt-get purge lxc-docker\\*
    apt-get purge docker
 
 #. Install the new (or older) docker::
