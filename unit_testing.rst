@@ -388,3 +388,14 @@ Here is another simple example that may help::
        suite = TestSuite()
        suite.addTest(makeSuite(TestAnalytics))
        return suite
+
+
+DMD fixtures
+------------
+You could use ``dmd`` in descendants of ``BaseTestCase`` after it ``afterSetUp`` method was executed.
+
+But, you need to remember that this ``dmd`` will be clean, so, if you want to use something like ``dmd.Devices.Network.Router`` it will give you ``AttributeError: Network``.
+
+To create device class you need to call ``dmd.Devices.createOrganizer('/Network')``.
+
+
