@@ -364,8 +364,8 @@ Questions and Possible Answers
   in the foreground in one step::
 
      zendev attach zenhub
-     pid=$(pidof zenhub)
-     kill -9 $pid; zenhub run -v10
+     pid=$(ps ax | grep -E "[[:digit:]]{2} su - zenoss -c" | awk '{print $1;}')
+     kill $pid; zenhub run -v10 --workers 0
   
   Zenhub must be in in full contact with all the other containers via TCP port
   connections. The fallback plan is us use a remote debugger like winpdb or dbgp.
