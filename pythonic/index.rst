@@ -5,4 +5,5 @@
    regex
    twisted
    tab-completion
+   pdb
 

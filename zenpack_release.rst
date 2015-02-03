@@ -45,9 +45,9 @@ version, the second is the minor version, and the third is the revision.
 Set this version in the $ZP_HOME/setup.py file. We use these version number
 variables as examples::
 
-   * OLD=3.0.1       (The previous Master release)
-   * CURRENT=3.0.2   (The new Develop -> Master release)
-   * NEW=3.0.3       (The new Develop branch)
+   OLD=3.0.1       # (The previous Master release)
+   CURRENT=3.0.2   # (The current Develop -> new Master release)
+   NEW=3.0.3       # (The new Develop branch)
 
 Release to Master
 ------------------
@@ -62,9 +62,9 @@ Checkout Master and Develop
 Starting from a clean *develop* branch:
 
 
-* Start the Release:
+* Start the Release::
 
-  - git flow release start $CURRENT
+    git flow release start $CURRENT
 
 * Edit setup.py (set the correct version numbers):
 
@@ -72,44 +72,44 @@ Starting from a clean *develop* branch:
 
 * Commit:
 
-  - For new release:
+  - For new release::
 
-    * git commit -a -m "release: version $CURRENT"
+    git commit -a -m "release: version $CURRENT"
 
-  - For update release:
+  - For update release::
 
-    * git commit -a -m "release: version ${CURRENT}dev -> $CURRENT"
+    git commit -a -m "release: version ${CURRENT}dev -> $CURRENT"
 
 
-* Finish the release:
+* Finish the release::
 
-  - git flow release finish $CURRENT
+    git flow release finish $CURRENT
 
-    - **You will be prompted for the *Commit String*, enter:**
+  - **You will be prompted for the *Commit String*, enter:**
 
-      - "tag $CURRENT"
+  - "tag $CURRENT"
 
-  - *You will automatically pushed back into develop*
+  - You will automatically pushed back into develop
 
 * Update develop's setup.py: Bump number and add "dev":
 
     - Example: $CURRENT -> ${NEW}dev
 
-* Commit again:
+* Commit again::
 
-  - git commit -a -m "post release: $CURRENT -> ${NEW}dev"
+    git commit -a -m "post release: $CURRENT -> ${NEW}dev"
 
 
-* Push and tag the  revision with a crpyto-secure key for reference
+* Push and tag the  revision with a crpyto-secure key for reference::
 
-  - git push
-  - git push --tags  ( <- thats a double-dash in the source docs! )
+    git push
+    git push --tags  # ( <- thats a double-dash! )
 
-* Finally, push up the master changes:
+* Finally, push up the master changes::
 
-  - git checkout master
-  - git push
-  - git checkout develop
+    git checkout master
+    git push
+    git checkout develop
 
 
 Build the Master on Jenkins
@@ -120,12 +120,12 @@ This will look like
 
 http://jenkins.zenosslabs.com/job/master-ZenPacks.zenoss.XYZ/
 
-Parature
---------------
+Send Notice to Zenoss Team
+-----------------------------
 
 .. Note::
 
-   Mere mortals are not typically allowed to do this step.
+   You need to let someone know that you have a released ZP.
    Consult Chet, John C, Rusty, or the equivalent.
 
 Method A: Required
@@ -133,21 +133,4 @@ Method A: Required
 
 * Email the ZP to Rusty: rwilson@zenoss.com
 
-Method B: Deprecated (Do this if you are suicidal).
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-* Go into Parature
-* Download the master Jenkins build from above: master-ZenPacks.zenoss.XYZ
-* Upload the egg to Parature: Parature->downloads->bulkUpload
-* Move the egg to the latest RM Zenpacks directory ( like 4.2.4 RM Zenpacks etc)
-* Settings:
-
-  - Perm: Platinum
-  - Perm: Gold
-  - Perm: Silver
-  - Perm: Bronze
-  - published
-
-* Copy download link (or number)
-* Paste that link to the approproate place in the Wiki
 

@@ -177,7 +177,8 @@ To start a new feature::
    .... do some more work ....
    .... you are finished ....
 
-  [bash]: git commit -a 
+  [bash]: git commit -am "Comment: this new feature fixes bugs"
+  [bash]: git flow feature publish xyz
   [bash]: git push (nothing happens)
   - (At this point you can ask for a Pull Request or continue)
   [bash]: git flow feature finish xyz
