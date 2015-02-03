@@ -7,8 +7,9 @@ The steps are:
 
 * 3rd Party Software approval
 * Ensure an appropriate copyright is included in each source file
-* Set the Version
-* Release to Master
+* Process the Repo through Git-Flow
+* Build the Master Egg on Jenkins
+* Inform the Release Team
 * Publish the Documentation on Wiki
 
 .. warning::
@@ -17,12 +18,12 @@ The steps are:
   control characters that will corrupt your git commands!
 
 3rd Party Software Approval
---------------------------------
+================================
 
 This is covered above. Please see that document.
 
 Appropriate copyright for each Source File
---------------------------------------------
+============================================
 
 Something similar to this should be in each sourcecode file::
 
@@ -34,6 +35,9 @@ Something similar to this should be in each sourcecode file::
    # License.zenoss under the directory where your Zenoss product is installed.
    #
    ############################################################################
+
+Process Repo through Git-Flow
+===============================
 
 Set the Version
 ----------------
@@ -68,17 +72,17 @@ Starting from a clean *develop* branch:
 
 * Edit setup.py (set the correct version numbers):
 
-  - Typically you remove the "dev" in the version number
-
+  - Typically you just remove the "dev" in the version number
+|
 * Commit:
 
   - For new release::
 
-    git commit -a -m "release: version $CURRENT"
+      git commit -a -m "release: version $CURRENT"
 
   - For update release::
 
-    git commit -a -m "release: version ${CURRENT}dev -> $CURRENT"
+      git commit -a -m "release: version ${OLD} -> ${CURRENT}"
 
 
 * Finish the release::
@@ -86,11 +90,9 @@ Starting from a clean *develop* branch:
     git flow release finish $CURRENT
 
   - **You will be prompted for the *Commit String*, enter:**
-
   - "tag $CURRENT"
-
   - You will automatically pushed back into develop
-
+|
 * Update develop's setup.py: Bump number and add "dev":
 
     - Example: $CURRENT -> ${NEW}dev
@@ -113,15 +115,15 @@ Starting from a clean *develop* branch:
 
 
 Build the Master on Jenkins
----------------------------
+==============================
 
 Go to the master branch on Jenkins and build it.
 This will look like
 
 http://jenkins.zenosslabs.com/job/master-ZenPacks.zenoss.XYZ/
 
-Send Notice to Zenoss Team
------------------------------
+Inform the Zenoss Release Team
+==============================
 
 .. Note::
 
@@ -133,4 +135,16 @@ Method A: Required
 
 * Email the ZP to Rusty: rwilson@zenoss.com
 
+Publish the Documentation on Wiki
+=================================
 
+Update your documentation. At the very least:
+
+* Update the http://wiki.zenoss.org version of your docs:
+
+  - Make sure to update essential documentation that has changed
+  - Make sure to update the **Changes** section 
+  
+* Update the README.mediawiki in your repo's root folder
+
+  - Just copy the mediawiki source into that file. It acts as a backup too.
