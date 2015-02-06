@@ -4,7 +4,7 @@ Installing Impact in Zendev
 * Pull and tag latest impact image (Currently 121)::
 
    # Note: Need to use an user that has docker privileges
-   export IMPACT_IMAGE_TAG=4.2.6.70.0_121
+   export IMPACT_IMAGE_TAG=4.2.6.70.0_130   # Warning: this tag changes!
    docker pull zenoss/impact-unstable:$IMPACT_IMAGE_TAG
    docker tag zenoss/impact-unstable:$IMPACT_IMAGE_TAG zenoss/impact-unstable:latest
 
@@ -21,7 +21,10 @@ Installing Impact in Zendev
   Note: 
 
    - You must install them in link mode
-   - You should use the devshell environment: zendev devshell
+   - You should not use the devshell environment (its broken): 
+     Instead use zope container: zendev attach zope
+     Optionally (from zendev): zendev attach zope su - zenoss -c "zenpack --list"
+
    - ***CRITICAL***: Make sure that ImpactServer and Impact zenpacks are on the
      develop branch. Zendev may put them on master by default.
 
@@ -54,7 +57,7 @@ Installing Impact in Zendev
 
    zenpack --link --install $EZ/ZenPacks.zenoss.Impact
 
-* Optionally install any zenpacks you are testing under Impacts
+* Optionally install any zenpacks you are testing under Impact
 
 * Restart zenoss:
 

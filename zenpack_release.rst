@@ -135,6 +135,8 @@ Method A: Required
 
 * Email the ZP to Rusty: rwilson@zenoss.com
 
+  - Include a list of all dependencies in the email body.
+
 Publish the Documentation on Wiki
 =================================
 

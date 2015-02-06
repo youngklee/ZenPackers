@@ -168,23 +168,25 @@ reviewed, you give it a version. (Source Unknown: Rob B).
 
 To start a new feature::
 
-  [bash]: git flow feature start xyz
-  [bash]: git status
-   On branch feature/xyz (don't give version #'s)
-   nothing to commit (working directory clean)
-   
-   .... do some work ....
-   .... do some more work ....
-   .... you are finished ....
+    [bash]: git flow feature start xyz
+    [bash]: git flow feature publish xyz
+      - (This creates the feature branch on Github, and allows you to "push")
+    [bash]: git status
+        On branch feature/xyz (don't give version #'s)
+        nothing to commit (working directory clean)
+        
+        .... do some work ....
+        .... do some more work ....
+        .... you are finished ....
 
-  [bash]: git commit -am "Comment: this new feature fixes bugs"
-  [bash]: git flow feature publish xyz
-  [bash]: git push (nothing happens)
-  - (At this point you can ask for a Pull Request or continue)
-  [bash]: git flow feature finish xyz
-  [bash]: git status
-   On branch develop
-   nothing to commit (working directory clean)
+    [bash]: git commit -am "Comment: this new feature fixes bugs"
+    [bash]: git push (nothing happens)
+      - (At this point you can ask for a Pull Request or continue)
+      - (Now you are finished with this feature...)
+    [bash]: git flow feature finish xyz
+    [bash]: git status
+     On branch develop
+     nothing to commit (working directory clean)
 
 Now you are back on develop. You still need to push your changes up::
 
