@@ -1,6 +1,6 @@
-.. ZenPack Hitch Hikers Guide
+.. ZenPackers Guide
 
-Welcome to the ZenPack Hitch-Hikers Guide!
+Welcome to ZenPackers!
 =============================================
 
 .. toctree::

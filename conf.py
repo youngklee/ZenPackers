@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# ZenPack Migration documentation build configuration file, created by
+# ZenPackers documentation build configuration file, created by
 # sphinx-quickstart on Wed May 29 09:39:19 2013.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -45,7 +45,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'ZenPack Migration Guide'
+project = u'ZenPackers Guide'
 copyright = u'2013, Zenoss, Inc.'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -108,7 +108,7 @@ html_theme = 'pyramid'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = "ZenPack Migration Guide Documentation"
+html_title = "ZenPackers Documentation"
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 # html_short_title = None
@@ -207,7 +207,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-    ('index', 'ZenPackMigration.tex', u'ZenPack Migration Documentation',
+    ('index', 'ZenPackMigration.tex', u'ZenPackers Documentation',
      u'Zenoss, Inc.', 'manual'),
 ]
 
@@ -237,7 +237,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'zenpackgenerator', u'ZenPack Migration Documentation',
+    ('index', 'zenpackgenerator', u'ZenPackers Documentation',
      [u'Zenoss, Inc.'], 1)
 ]
 
@@ -251,7 +251,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'ZenPackMigration', u'ZenPack Migration Documentation',
+    ('index', 'ZenPackMigration', u'ZenPackers Documentation',
      u'Zenoss, Inc.', 'ZenPackMigration', 'One line description of project.',
      'Miscellaneous'),
 ]
@@ -269,7 +269,7 @@ texinfo_documents = [
 # -- Options for Epub output ---------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'ZenPack Migration'
+epub_title = u'ZenPackers'
 epub_author = u'Zenoss, Inc.'
 epub_publisher = u'Zenoss, Inc.'
 epub_copyright = u'2013, Zenoss, Inc.'
