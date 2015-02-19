@@ -50,3 +50,4 @@ few weeks.
 
    impact.rst
    docker.rst
+   opentsdb.rst

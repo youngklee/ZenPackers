@@ -5,7 +5,7 @@ ZenPackLib Overview
 The ZenPackLib allows you to automate much of the ZenPack creation process.
 
 Description
-------------------------------------------------------------------------------
+==============================================================================
 
 ZenPackLib's use of automatic class creation requires a bit of explanation.
 We will attempt to cover some of this here. The official documentation will
@@ -205,8 +205,60 @@ __init__.py. The various properties you can change are:
 * impacted_by: What is component is impacted by: can be list or function
 * order: Order of display in the grid
 
-ZPL Modeling Templates
+ZPL Modeling
 --------------------------
+
+ZPL Automatic set_ and get_ for Non-Containing Relations
+==========================================================
+
+You will automatically get a *set_var()* and *get_var()* method when you
+invoke them in the modeler. The **set_** method will create or update the 
+relationship.
+
+You use it by first creating a non-containing
+relationship in the YUML like this::
+
+    [Tenant]1-.-*[Floatingip]
+
+Now you set the relationship up in the modeler by using **set_tenant*:
+
+.. code-block:: python
+   :emphasize-lines: 9
+   :linenos:                  
+
+    floatingips = []
+        for floatingip in results['floatingips']:
+ 
+        floatingips.append(ObjectMap(
+            modname = 'ZenPacks.zenoss.OpenStackInfrastructure.FloatingIp',
+            data = dict(
+                id = 'floatingip-{0}'.format(floatingip['id']),
+                floatingipId = floatingip['id'],
+                set_tenant = tenant_name[0],
+                )))
+    
+    tenants = []
+        ... similar to floatingips above ...
+        ... etc ...
+
+    objmaps = {
+              'tenants': tenants,
+              'floatingips': floatingips,
+          }
+
+    # Apply the objmaps in the right order.
+    componentsMap = RelationshipMap(relname = 'components')
+    for i in ('tenants', 'floatingips'):
+        for objmap in objmaps[i]:
+            componentsMap.append(objmap)
+
+    return (componentsMap)
+
+
+
+ZPL Modeling Templates
+==========================
+
 Our modeling example is a very simplified version of the ControlPlane ZenPack.
 The modeler itself grabs a pre-made ObjectMap from the helper class in
 $ZP_DIR/modeling:

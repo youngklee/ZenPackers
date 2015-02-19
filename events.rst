@@ -12,19 +12,21 @@ management system.
 Basic Event Fields
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To enter the Zenoss event management system, an event must contain
-values for the device, severity, and summary fields. If an event is
-missing any of these fields, then Zenoss rejects it.
+.. warning::
+
+   To enter the Zenoss event management system, an event must contain
+   values for the **Device**, **Severity**, and **Summary** fields. 
+   If an event is missing any of these fields, then Zenoss rejects it.
 
 Basic event fields are:
 
--  device
--  ipAddress
--  eventState
--  severity
--  summary
--  message
--  evid
+*  **device**
+*  **severity**
+*  **summary**
+*  ipAddress
+*  eventState
+*  message
+*  evid
 
 device and ipAddress Fields
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

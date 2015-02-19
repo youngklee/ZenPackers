@@ -137,6 +137,27 @@ To remove a  remote branch::
   git push origin --delete <branchName>
 
 
+Resetting a Master Branch to a Prior Commit
+--------------------------------------------------
+* git checkout master
+* Identify the number of your last "good" commit::
+
+    git log
+    (grab the good commit number: e3f1e37)
+
+* Reset your master to that commit level::
+  
+    git reset --hard e3f1e37
+
+* Push it up to github::
+
+    git push --force origin master
+
+* Test the diff between local and remote: Should show nothing::
+
+    git diff master..origin/master
+
+
 Comparison of Git Branches
 ---------------------------------------------------
 
