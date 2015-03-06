@@ -55,3 +55,29 @@ Required: You must be in the **zendmd** interpreter for all these examples.
            d.deleteZenProperty('zDeviceTemplates')
 
 
+* Get a Component by Name::
+
+   def getComponentByName(device, component_name):
+       cs = device.componentSearch()
+       for brain in cs:
+           component = brain.getObject()
+           if component.name() == component_name:
+               return component 
+
+   device = find('mp8.osi')
+   comp = getComponentByName(device, 'vm_1')
+
+
+* Get a Component by ID::
+
+   def getComponentById(device, component_id):
+       cs = device.componentSearch()
+       for brain in cs:
+           component = brain.getObject()
+           if component.id == component_id:
+               return component 
+
+   device = find('mp8.osi')
+   comp = getComponentById(device, 'network-10a893c1-01a6-438a-b231-3d5102cbc639')
+
+

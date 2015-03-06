@@ -87,17 +87,22 @@ debugging.
 
     zenping –d 3.14.1.59 –v10
 
+.. warning::
+
+   If your device doesn't allow ping connections, your modeler and collector
+   may not work. To circumvent this, set **zPingMonitorIgnore** to False.
+
 4. zeneventd
 ~~~~~~~~~~~~
-zeneventd daemon has a major role in applying (event) transforms [Python code
-written to manipulate events]. Daemon fetches incoming events from
-zenoss.queues.zep.rawevents queue and applies transform add necessary device
-context such as Device group/Device State
-[Production/Development] and some event related information such as
-[last seen, first seen] time of event. If the daemon stops running, we
-could see size of rawevents queue getting increased. We can debug
-execution of transform code by putting log.info(‘For Debug’) statement
-inside the code which will be printed in ‘/opt/zenoss/log/zeneventd.log’
+The zeneventd daemon's major role is to apply **event transforms** (Python code
+that manipulates events). This daemon fetches incoming events from
+zenoss.queues.zep.rawevents queue and applies transform and necessary device
+context such as Device group/Device State [Production/Development] and some
+event related information such as [last seen, first seen] time of event. If the
+daemon stops running, we could see size of rawevents queue getting increased.
+We can debug execution of transform code by putting log.info(‘For Debug’)
+statement inside the code which will be printed in
+‘/opt/zenoss/log/zeneventd.log’
 
 ::
 
@@ -117,6 +122,9 @@ inside the code which will be printed in ‘/opt/zenoss/log/zeneventd.log’
 
     # zeneventd run –d 3.14.1.59 –v10 
 
+If you have code that is run as a result of an event transform, place your 
+**pdb.set_trace** in that code, and run zeneventd in the foreground to catch it.
+
 5. zensyslog
 ~~~~~~~~~~~~
 zensyslog daemon process syslog messages [/var/log/messages] that are
@@ -126,11 +134,11 @@ received from monitored device on to zenoss on port UDP/514.
 ~~~~~~~~~~~~~
 | zenprocess daemon, process monitoring capability is integrated to
 | zenoss by using HOST-RESOURCES MIB which get loaded into zenoss as part
-| of default installation. zenprocess uses snmp table and get process
+| of default installation. zenprocess uses SNMP table and get process
 | information like PID, path to the binary that is being executed and
 | number of running instances.
 
-|  Etc. zenprocess daemon deafult polling interval is 3 min [180
+|  Etc. zenprocess daemon default polling interval is 3 min [180
 | seconds]. Not possible to customize the polling interval per device
 | level. The following runs this daemon in debug mode against a single device.
 

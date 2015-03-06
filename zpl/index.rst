@@ -16,3 +16,4 @@ It does this by:
 
    zpl_intro
    relationships
+   errors

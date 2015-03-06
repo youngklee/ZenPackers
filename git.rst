@@ -137,6 +137,14 @@ To remove a  remote branch::
   git push origin --delete <branchName>
 
 
+Synchronizing Local Branches and References: Pruning
+-----------------------------------------------------
+Sometimes you'll have a lot of old remote branch references that have
+been long deleted on the hub. You can synchronize them with fetch::
+
+    git fetch -p
+
+
 Resetting a Master Branch to a Prior Commit
 --------------------------------------------------
 * git checkout master
@@ -171,8 +179,8 @@ _______________________________________________________________________________
 Git-Flow 
 =============================================================================
 
-Git flow simplifies development revisioning.
-http://danielkummer.github.io/git-flow-cheatsheet/
+Git flow simplifies development flow cycle.
+See http://danielkummer.github.io/git-flow-cheatsheet/
 
 Setup Git-Flow in the Existing Repo
 ------------------------------------

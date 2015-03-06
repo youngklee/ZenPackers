@@ -55,6 +55,12 @@ You can test Unit Tests manually with **runtests** as follows:
 
 In this case we ran 2 tests and had 0 failures. We got lucky.
 
+You can also specify the module to run::
+
+   runtests --type unit  ZenPacks.zenoss.DatabaseMonitor -m test_modeler
+
+
+
 Unit Test Framework
 ------------------------------------------------------------------------------
 
