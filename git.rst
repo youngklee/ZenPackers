@@ -43,7 +43,7 @@ Now that you have a repo, go into the repo folder.
 
 To add your new files::
 
-  [bash]: git add -a xyz.py abc.py
+  [bash]: git add -a abc.py def.py
   [bash]: git add -A (Danger: adds and removes files from working tree)
 
 To commit all changes execute::
@@ -197,11 +197,11 @@ reviewed, you give it a version. (Source Unknown: Rob B).
 
 To start a new feature::
 
-    [bash]: git flow feature start xyz
-    [bash]: git flow feature publish xyz
+    [bash]: git flow feature start area51
+    [bash]: git flow feature publish area51
       - (This creates the feature branch on Github, and allows you to "push")
     [bash]: git status
-        On branch feature/xyz (don't give version #'s)
+        On branch feature/area51 (don't give version #'s)
         nothing to commit (working directory clean)
         
         .... do some work ....
@@ -212,7 +212,7 @@ To start a new feature::
     [bash]: git push (nothing happens)
       - (At this point you can ask for a Pull Request or continue)
       - (Now you are finished with this feature...)
-    [bash]: git flow feature finish xyz
+    [bash]: git flow feature finish area51
     [bash]: git status
      On branch develop
      nothing to commit (working directory clean)
@@ -225,13 +225,13 @@ Now you are back on develop. You still need to push your changes up::
    1530600..2873dc4  develop -> develop
 
 
-Feature Drop from Develop to Feature/XYZ
------------------------------------------
+Feature Drop from Develop to Feature/area51
+-----------------------------------------------
 
-So you have a fix in develop that needs to be pulled into your feature/xyz branch.
-You will merge **develop** into feature/xyz
+So you have a fix in develop that needs to be pulled into your feature/area51 branch.
+You will merge **develop** into feature/area51
 
-* From your feature branch feature/xyz, make sure you commit and push::
+* From your feature branch feature/area51, make sure you commit and push::
 
   [bash]: git commit -a 
   [bash]: git push
@@ -275,7 +275,7 @@ You get these messages
     Branches 'develop' and 'origin/develop' have diverged.
     Fatal: And branch 'develop' may be fast-forwarded.
 
-Somone has added to develop during your feature XYZ while you were sleeeping.
+Somone has added to develop during your area51 while you were sleeeping.
 This is common in a mulit-user environment. You will
 have to merge the two together. To solve this, you need to: 
 
@@ -287,12 +287,12 @@ have to merge the two together. To solve this, you need to:
 * Rebase your feature on develop. You may have conflicts here if you're
   unlucky::
 
-    git flow feature rebase XYZ
+    git flow feature rebase area51
 
 
 * Check that nothing is broken::
 
-    git flow feature finish XYZ
+    git flow feature finish area51
 
 * If things are still broken, you may need to do some surgery
 
@@ -426,14 +426,14 @@ Git Access For Zenossians
 
 
 If you yourself need a change in user permissions, or are asking on someone
-else’s behalf, here’s how we’ll handle it going forward.
+else’s behalf, here’s how we handle it going forward:
 
 #. Send an e-mail to github-owners@zenoss.com with a summary of your
    request in the subject. Examples:
 
-   a. Need to grant pull and push access to foo_user to xyz_repo
+   a. Need to grant pull and push access to joe_user to xyz_repo
    #. Need to remove all access from former_employee
-   #. Need to enable write access for foo_user to all Zenoss repos
+   #. Need to enable write access for joe_user to all Zenoss repos
 
 #. The email body needs to include the following:
 
