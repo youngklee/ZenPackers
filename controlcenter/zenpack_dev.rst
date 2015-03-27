@@ -181,11 +181,17 @@ process:
 
 #. Attach to the Zope Container. If you have more than one, use the UUID::
 
-    zendev attache Zope
+    serviced service attach Zope
 
 #. cd /mnt/src/zenpacks
 #. Make sure your zenpack is present
 #. zenpack --link --instal ZenPacks.zenoss.XYZ
+
+
+Sometimes you have no choice but to install using Egg. In that case
+you must be in the host system (zendev or otherwise)::
+
+    serviced service run zope zenpack install ZenPacks.zenoss.OpenStack-XXX.egg
 
 _______________________________________________________________________________
 

@@ -296,6 +296,136 @@ have to merge the two together. To solve this, you need to:
 
 * If things are still broken, you may need to do some surgery
 
+Merge Conflicts: Fixing a Rebase
+---------------------------------
+
+ If you do have conflicts with your merge you can take a simple approach
+to fixing them:
+
+* Rebase against develop::
+
+   [zenoss@austin]: git rebase develop
+      First, rewinding head to replay your work on top of it...
+      Applying: Make Tenant rels concrete
+      Using index info to reconstruct a base tree...
+      M       ZenPacks/zenoss/DB2/__init__.py
+      Falling back to patching base and 3-way merge...
+      Auto-merging ZenPacks/zenoss/DB2/__init__.py
+      Falling back to patching base and 3-way merge...                                                                                                                                       [588/1329]
+      Auto-merging ZenPacks/zenoss/DB2/__init__.py
+      CONFLICT (content): Merge conflict in ZenPacks/zenoss/DB2/__init__.py
+      Failed to merge in the changes.
+      Patch failed at 0001 Make Tenant rels concrete
+      The copy of the patch that failed is found in:
+         /data/zp/ZenPacks.zenoss.DB2/.git/rebase-apply/patch
+
+      When you have resolved this problem, run "git rebase --continue".
+      If you prefer to skip this patch, run "git rebase --skip" instead.
+      To check out the original branch and stop rebasing, run "git rebase --abort".
+
+* Edit the problem file and fix::
+  
+   [zenoss@austin]: vi __init__.py
+      ( fix fix fix )
+   
+   [zenoss@austin]: git status
+
+      rebase in progress; onto 34ae002
+      You are currently rebasing branch 'feature/ZEN-17143_installWarnings' on '34ae002'.
+      (fix conflicts and then run "git rebase --continue")
+      (use "git rebase --skip" to skip this patch)
+      (use "git rebase --abort" to check out the original branch)
+
+      Unmerged paths:
+      (use "git reset HEAD <file>..." to unstage)
+      (use "git add <file>..." to mark resolution)
+
+            both modified:   __init__.py
+
+
+* Add the file (you probably have to add this file back into to flock)::
+ 
+   [zenoss@austin]: git add __init__.py
+
+* Continue::
+  
+   [zenoss@austin]: git rebase --continue
+
+      Applying: Make Tenant rels concrete
+      Applying: fix impact relations
+      Using index info to reconstruct a base tree...
+      M       ZenPacks/zenoss/DB2/Tenant.py
+      M       ZenPacks/zenoss/DB2/__init__.py
+      Falling back to patching base and 3-way merge...
+      Auto-merging ZenPacks/zenoss/DB2/__init__.py
+      CONFLICT (content): Merge conflict in ZenPacks/zenoss/DB2/__init__.py
+      CONFLICT (modify/delete): ZenPacks/zenoss/DB2/Tenant.py deleted in fix impact relations and modified in HEAD. Version HEAD of ZenPacks/zenoss/DB2/Tenant.
+      py left in tree.
+      Failed to merge in the changes.
+      Patch failed at 0002 fix impact relations
+      The copy of the patch that failed is found in:
+         /data/zp/ZenPacks.zenoss.DB2/.git/rebase-apply/patch
+
+      When you have resolved this problem, run "git rebase --continue".
+      If you prefer to skip this patch, run "git rebase --skip" instead.
+      To check out the original branch and stop rebasing, run "git rebase --abort"
+
+* Repeat: You may have to edit/re-edit a file, re-add, and continue as before::
+
+   [zenoss@austin]: vi __init__,py
+   [zenoss@austin]: git add __init__.py
+   [zenoss@austin]: git rebase --continue
+      ZenPacks/zenoss/DB2/Tenant.py: needs merge
+      You must edit all merge conflicts and then
+      mark them as resolved using git add
+
+* Delete what is required. You deleted a file but it is confused by this::
+
+   [zenoss@austin]: git rm Tenant.py 
+      ZenPacks/zenoss/DB2/Tenant.py: needs merge
+      rm 'ZenPacks/zenoss/DB2/Tenant.py'
+
+   [zenoss@austin]: git rebase --continue
+      Applying: fix impact relations
+
+   [zenoss@austin]: git st
+      On branch feature/ZEN-17143_installWarnings
+      Your branch and 'origin/feature/ZEN-17143_installWarnings' have diverged,
+      and have 14 and 2 different commits each, respectively.
+      (use "git pull" to merge the remote branch into yours)
+      nothing to commit, working directory clean
+
+* At this point the merge is good, but it asks you to pull. Probably ignore.?
+  You really want to push your changes::
+
+   [zenoss@austin]: git push
+      To git@github.com:zenoss/ZenPacks.zenoss.DB2.git
+       ! [rejected]        feature/ZEN-17143_installWarnings ->
+       feature/ZEN-17143_installWarnings (non-fast-forward)
+       error: failed to push some refs to
+       'git@github.com:zenoss/ZenPacks.zenoss.DB2.git'
+       hint: Updates were rejected because the tip of your current branch is
+       behind
+       hint: its remote counterpart. Integrate the remote changes (e.g.
+       hint: 'git pull ...') before pushing again.
+       hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+   [zenoss@austin]: git push --force
+      Counting objects: 12, done.
+      Delta compression using up to 8 threads.
+      Compressing objects: 100% (12/12), done.
+      Writing objects: 100% (12/12), 1.22 KiB | 0 bytes/s, done.
+      Total 12 (delta 6), reused 0 (delta 0)
+      To git@github.com:zenoss/ZenPacks.zenoss.DB2.git
+      + 2bfc0a6...f7ddee9 feature/ZEN-17143_installWarnings ->
+         feature/ZEN-17143_installWarnings (forced update)
+
+   [zenoss@austin]: git st
+      On branch feature/ZEN-17143_installWarnings
+      Your branch is up-to-date with 'origin/feature/ZEN-17143_installWarnings'.
+      nothing to commit, working directory clean
+
+
 Git Stash: Stashing Modified Files
 ------------------------------------
 

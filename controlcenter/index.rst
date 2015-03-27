@@ -25,7 +25,8 @@ Setup and Configuration
    cleanup
    compiling
    updating
-   cp-beta.rst
+   cp-beta
+   containers
 
 =============================================
 Zenpack Development 
