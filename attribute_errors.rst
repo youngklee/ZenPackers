@@ -35,5 +35,51 @@ Attribute errors of the type "__of__"
  fail, but it at least copies the code to the right place that allows the
  second installation to work.
 
- If that fails you may have to use heavier methods like *zenwipe.sh*
+You still have problem removing the device: Possible stale devices
+------------------------------------------------------------------
+
+If you still have errors removing the device with an error 
+that refers to your ZP objects, similar to::
+
+  ... lots of stuff before this ...
+  ImportError: No module named xyz_implementation
+  ERROR:zen.ZenPackCmd:zenpack command failed
+
+It may indicate that you have a stale object that failed to be removed.
+You *might* be able to 
+
+* Remove the bad device by going into zendmd and deleting it twice::
+
+   zenoss@mp2:/opt/zenoss/ZenPacks]: zendmd
+    >>> device = find('mp8.osi')
+    >>> device
+      <Endpoint at /zport/dmd/Devices/ABC/XYZ/devices/mp8.osi>
+    >>> device.deleteDevice()
+      File "/zenpacks/ZenPacks.zenoss.XYZ/ZenPacks/zenoss/XYZ/catalogs.py",
+      line 84, in get_xyz_core_catalog
+          from ZenPacks.zenoss.OpenStackInfrastructure.xyz_implementation
+          import all_core_components
+          ImportError: No module named xyz_implementation
+    >>> device.deleteDevice()
+     ... more tracebacks ...
+    >>> commit()
+    >>> exit()
+
+* Now try to remote the ZP again::
+
+    zenpack --remove ZenPacks.zenoss.XYZ
+
+* Now restart all Zenoss services 
+
+
+
+
+If all else Fails
+---------------------
+
+If these trials fail you may have to:
+
+* Somehow manually edit the ZoDB and remove the problem object
+* Use heavier methods like *zenwipe.sh*
+
 
