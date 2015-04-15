@@ -26,7 +26,6 @@ When you view the GUI, the system processes in the general order:
 
 
 
-
 Logical Data Flow for Europa Modeler
 -------------------------------------
 

@@ -166,6 +166,12 @@ Resetting a Master Branch to a Prior Commit
     git diff master..origin/master
 
 
+Revert a Master Branch to a Prior Commit
+--------------------------------------------------
+
+git revert will create a new commit that will undo what the prior commit(s)  
+have done and put that into your history. It gives you a log of your undo.
+
 Comparison of Git Branches
 ---------------------------------------------------
 
