@@ -98,7 +98,7 @@ to do the following items:
 
   B. Add a CNAME entry in your DNS that points zenoss5x to xyz.zenoss.loc
 
-* You should be able to connect now to: https://zenoss5x.xyz.zenoss.loc
+* You should be able to connect now to: https://zenoss5.xyz.zenoss.loc
   If not, go back and check your networking setup.
 
 * Once you can connect, you must connect to the container for the daemon

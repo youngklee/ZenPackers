@@ -36,6 +36,7 @@ Zenpack Development
    :maxdepth: 2
 
    zenpack_dev
+   debugging
    templates
 
 =============================================
