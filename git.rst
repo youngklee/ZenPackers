@@ -169,7 +169,7 @@ Resetting a Master Branch to a Prior Commit
 Revert a Master Branch to a Prior Commit
 --------------------------------------------------
 
-git revert will create a new commit that will undo what the prior commit(s)  
+*git revert* will create a new commit that will undo what the prior commit(s)  
 have done and put that into your history. It gives you a log of your undo.
 
 Comparison of Git Branches
@@ -179,6 +179,66 @@ Comparison of Git Branches
 
    git log --no-merges master..develop
 
+
+Avoiding a lot of small commit messages
+---------------------------------------------------------------------
+You can make as many small changes as you like and still have a clean
+single commit by using git's amend flag on your commit::
+
+    git commit --amend
+    (make your commit message)
+    (write/quit)
+
+Every time you make a new commit in this way, you get the benefit of small
+incremental changes and a clean commit log. If you have already made a mess
+of things you can try the next technique to **Squash** your commits.
+
+
+Squashing multiple commits to a single commit in a feature:
+---------------------------------------------------------------------
+
+In order to do this safely, we recommend only doing this in a feature branch
+  (based on develop) that is not being shared. 
+  
+* From your feature branch, do a rebase with the -i flag::
+
+    git rebase -i develop
+
+* When it shows you the multiple commits, change command in commits after the first
+  "pick" to "squash". Thus something like this::
+
+      pick 01d1124 Adding license
+      pick 6340aaa Moving license into its own file
+      pick ebfd367 Jekyll has become self-aware.
+      pick 30e0ccb Changed the tagline in the binary, too.
+
+  now becomes::
+
+      pick 01d1124 Adding license
+      squash 6340aaa Moving license into its own file
+      squash ebfd367 Jekyll has become self-aware.
+      squash 30e0ccb Changed the tagline in the binary, too.
+
+
+* Now you write that out and it will ask you to fix-up the commit logs.
+  Do this by changing to a unified commit message::
+
+    # This is a combination of 4 commits.
+    # The first commit's message is:
+    Dr Jekyll's final revisions to persona.
+
+    Add that license thing
+    Moving license into its own file
+    Jekyll has become self-aware.
+    Changed the tagline in the binary, too.
+
+* Once you write that out, you need to push it up with force flag to rewrite
+  history::
+
+    git push -f 
+
+* If you have already pushed it up prior to this, or even created a Pull,
+  your upstream commits and pulls will get replaced with the unified commit.
 _______________________________________________________________________________
 
 =============================================================================

@@ -16,6 +16,8 @@ The steps are:
 
   Do not cut-and-paste from the HTML of this document. The HTML contains
   control characters that will corrupt your git commands!
+  Instead you can use the source from github at
+  git@github.com:zenoss/ZenPackers.git
 
 3rd Party Software Approval
 ================================
@@ -49,30 +51,34 @@ version, the second is the minor version, and the third is the revision.
 Set this version in the $ZP_HOME/setup.py file. We use these version number
 variables as examples::
 
-   OLD=3.0.1       # (The previous Master release)
-   CURRENT=3.0.2   # (The current Develop -> new Master release)
-   NEW=3.0.3       # (The new Develop branch)
+   export OLD=3.0.1       # (The previous Master release)
+   export CURRENT=3.0.2   # (The current Develop -> new Master release)
+   export NEW=3.0.3       # (The new Develop branch)
 
-Release to Master
-------------------
-We use *Git Flow* to release with some custom conventions:
+Start the Release Process
+----------------------------------
+We use *Git Flow* to release with some custom conventions.
 
-First we select a RELEASE name according to version name.
+Starting from a clean *develop* branch::
 
-
-Checkout Master and Develop
------------------------------
-
-Starting from a clean *develop* branch:
-
+   git checkout develop
+   git status
+   (ensure develop is clean)
 
 * Start the Release::
 
     git flow release start $CURRENT
 
+* Update the README.mediawiki and associated docs:
+
+  - Make sure to update essential functionality that has changed
+  - Make sure to update the **Changes** section 
+  - Include any relevant fixes
+|
 * Edit setup.py (set the correct version numbers):
 
   - Typically you just remove the "dev" in the version number
+  - Ensure that the version is the $NEW value
 |
 * Commit:
 
@@ -142,11 +148,9 @@ Publish the Documentation on Wiki
 
 Update your documentation. At the very least:
 
-* Update the http://wiki.zenoss.org version of your docs:
+* Update the http://wiki.zenoss.org version of your docs as per 
+  your corrections to README.mediawiki in section `Start the Release Process`_ :
 
   - Make sure to update essential documentation that has changed
   - Make sure to update the **Changes** section 
   
-* Update the README.mediawiki in your repo's root folder
-
-  - Just copy the mediawiki source into that file. It acts as a backup too.
