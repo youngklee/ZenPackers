@@ -248,8 +248,13 @@ Git-Flow
 Git flow simplifies development flow cycle.
 See http://danielkummer.github.io/git-flow-cheatsheet/
 
+.. _gitflow_setup:
+
 Setup Git-Flow in the Existing Repo
 ------------------------------------
+First go into the repo base folder. Make sure you get a clean *git status*.
+Then you initialize the git repo for *git flow* as follows:
+
 ::
 
    [bash]: git flow init
@@ -282,16 +287,17 @@ To start a new feature::
 
     [bash]: git flow feature start area51
     [bash]: git flow feature publish area51
-      - (This creates the feature branch on Github, and allows you to "push")
+      - (This creates the feature branch on Github, and allows "push")
     [bash]: git status
-        On branch feature/area51 (don't give version #'s)
+        On branch feature/area51
         nothing to commit (working directory clean)
         
         .... do some work ....
         .... do some more work ....
         .... you are finished ....
+        .... now commit ....
 
-    [bash]: git commit -am "Comment: this new feature fixes bugs"
+    [bash]: git commit -am "Comment: This fixes bug ZEN-3234823"
     [bash]: git push (nothing happens)
       - (At this point you can ask for a Pull Request or continue)
       - (Now you are finished with this feature...)

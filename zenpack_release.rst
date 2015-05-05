@@ -40,6 +40,8 @@ Something similar to this should be in each sourcecode file::
 
 Process Repo through Git-Flow
 ===============================
+We use *Git Flow* to release with some custom conventions.
+Refer to :ref:`gitflow_setup` for details.
 
 Set the Version
 ----------------
@@ -57,8 +59,6 @@ variables as examples::
 
 Start the Release Process
 ----------------------------------
-We use *Git Flow* to release with some custom conventions.
-
 Starting from a clean *develop* branch::
 
    git checkout develop
