@@ -299,8 +299,17 @@ To start a new feature::
 
     [bash]: git commit -am "Comment: This fixes bug ZEN-3234823"
     [bash]: git push (nothing happens)
-      - (At this point you can ask for a Pull Request or continue)
+      . Counting objects: 4, done.
+      . Writing objects: 100% (4/4), 647 bytes | 0 bytes/s, done.
+      . Total 4 (delta 3), reused 0 (delta 0)
+      . To git@github.com:zenoss/DB2.git
+           6f1c83e..faf56f5  feature/area51 -> feature/area51
+
+      - (Later you ask for a Pull Request or continue modifications)
+      - (Someone may merge your Pull req into develop)
       - (Now you are finished with this feature...)
+      - (You can either delete this branch or git-flow finish it)
+
     [bash]: git flow feature finish area51
     [bash]: git status
      On branch develop
