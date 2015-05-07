@@ -20,6 +20,7 @@ Topics for Zenpack Administration
    rrdtool
    3rd_party_licensing
    zenpack_release
+   hotfix_release
    4x_daemons
    removing_zp
    zendmd
