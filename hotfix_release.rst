@@ -7,7 +7,7 @@ Target develop to next minor release if it's not already so:
 
     #. git checkout develop
     #. git pull
-    #. => edit setup.py: change VERSION 2.2.1dev -> 2.3.0dev
+    #. => Edit setup.py: change VERSION 2.2.1dev -> 2.3.0dev
     #. git commit -a -m "Start 2.3.0 Release: Version 2.2.1dev -> 2.3.0dev"
     #. git push
 
@@ -17,20 +17,21 @@ Start the hotfix for the next patch release if it's not already started:
     #. git checkout master
     #. git pull
     #. git flow hotfix start 2.2.1
-    #. => edit setup.py: change VERSION 2.2.0 -> 2.2.1dev
+    #. => Edit setup.py: change VERSION 2.2.0 -> 2.2.1dev
     #. git commit -a -m "Start 2.2.1 Hotfix: Version 2.2.0 -> 2.2.1dev"
     #. git push
 
 Commit changes to hotfix:
 ===============================================================================
 
-    #. => make and commit changes needed in 2.2.1 hotfix including README.mediawiki updates.
+    #. => Make and commit changes needed in 2.2.1 hotfix 
+    #. => Update README.mediawiki as required 
     #. git push
 
 Finish hotfix when all changes are committed:
 ===============================================================================
 
-    #. => edit setup.py: change VERSION 2.2.1dev -> 2.2.1
+    #. => Edit setup.py: change VERSION 2.2.1dev -> 2.2.1
     #. git commit -a -m "Finish 2.2.1 Hotfix: Version 2.2.1dev -> 2.2.1"
     #. git flow hotfix finish
     #. git push --all
@@ -52,3 +53,5 @@ Hotfix with a Single Patch
           remain open for a while and the process is less synchronous in that case.
 
 
+.. Note:: You should be familiar with the details of :ref:`zenpack_release_notes`
+          if you have any questions concerning release details.
