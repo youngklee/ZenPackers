@@ -23,3 +23,12 @@ Create the Joins
 Create the required joins between your dataources, metrics, and dimention
 tables.
 
+Create the Reports
+-----------------------------
+
+Create your reports now 
+
+Save the Bundle
+-----------------
+Save the data bundle
+

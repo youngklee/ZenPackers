@@ -353,12 +353,9 @@ Questions and Possible Answers
 
   - dgbp: http://docs.activestate.com/komodo/4.4/debugpython.html
   - winpdb: http://winpdb.org/docs/embedded-debugging/
+  - pdb: put your pdb in the right place and run a service in forground
 
-* How do run Zope in the foreground?
-  Suggested (untested) answer: *serviced service attach* an existing Zope
-  container, edit zope.conf to increment the zope port, and then zopectl fg
-  will start another zope in the foreground. whether that will enable you to
-  hit that instance with a browser is unknown.
+  You may need to try several differnent methods.
 
 * Can I Run Zenhub in the foreground?
 
@@ -375,6 +372,15 @@ Questions and Possible Answers
   
   Zenhub must be in in full contact with all the other containers via TCP port
   connections. The fallback plan is us use a remote debugger like winpdb or dbgp.
+
+* How do run Zope in the foreground?
+
+  - Ensure that there is only one Zope instance running
+  - *serviced service attach* an existing Zope container, 
+  - Kill zopectl in the background and immediately restart in the foreground
+    similarly to Zenhub::
+
+      kill 30440 ; su - zenoss -c /opt/zenoss/bin/runzope
 
 * You upgraded Go, but you can't build anymore. You get errors like this::
 

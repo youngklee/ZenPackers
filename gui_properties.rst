@@ -3,14 +3,14 @@ GUI Properties and JavaScript Related Methods
 ==============================================================================
 
 Description
-------------------------------------------------------------------------------
+==============================================================================
 
 Zenpack GUIs need to cute.
 This is done by getting more properties in the GUI.
 We explain how to do this here a bit...
 
 Prerequisites
-------------------------------------------------------------------------------
+==============================================================================
 
 * Zenoss ZenPack Developement 
 * Python 2.7
@@ -25,7 +25,7 @@ running Zenoss. The CLI default prompt is **[zenoss:~]:**
 # Event Traps (TBD)
 
 Variables: Who, What, Where, and How
--------------------------------------
+==============================================================================
 
 Variables in the GUI are primarily set by our ExtJS Javascript library
 configuration. These are the steps:
@@ -108,7 +108,7 @@ Now you can use your variables in an anonmous function inside your ExtJS::
 
 
 Renderer: Changing Column Appearances
--------------------------------------
+==============================================================================
 
 Change the "First Seen" and "Last Seen" columns in the event console to show
 how long ago the event occurred in a more human-friendly way. This is done 
@@ -151,7 +151,7 @@ through the following JS function exampe (time_ago_columns.js)::
    }());
 
 Renderer: Linking Grid Elements to other Component Views 
---------------------------------------------------------
+==============================================================================
 
 Again we are looking at the JS files in $ZPDIR/browser/resources/js/ .
 Inside your anonymous function, we need to define a custom renderer 
@@ -224,7 +224,7 @@ your grid objects::
 Now this ZC.OracleTableSpacePanel grid will have a link to the ZC.OracleInstancePanel grid.
 
 GUI: Adding an Extra Panel to the Navigator 
----------------------------------------------
+==============================================================================
 
 So you have your new component, say TableSpaces and your associated
 OracleTableSpacePanel grid as above. But you may want to have a Nav info
@@ -254,7 +254,7 @@ OracleInstance.
 
 
 GUI: Changing Detail Values in the Navigator
----------------------------------------------
+==============================================================================
 
 The Navigator (Nav Panel) contains the Detail View (and others) below the component frame.
 We will show how to change the values presented in the Details window of the Nav.
@@ -291,7 +291,7 @@ and present that in the Details page.
 
 
 GUI: Auto-Expanding Columns and minWidth for Component Grids
-------------------------------------------------------------
+==============================================================================
 
 Component grids traditionally use the *Name* field to take up all
 the extra slack in the spacing. To do that you first set it up as
@@ -332,5 +332,58 @@ like this::
                 sortable: true,
                 minWidth: 70
             },........
+
+
+Missing DocString in Component Class results in Site-Error 
+==============================================================================
+
+If you have a component class that has no docstring, or inherits from a class
+that is missing a docstring, a direct link to it will
+result in a Site-Error in the UI.
+
+Zope will only publish resources with a docstring. When you navigate directly
+to an object's primary path you're asking Zope to publish it. It may look like::
+
+    Site error
+    An error was encountered while publishing this resource. 
+    The requested resource does not exist.
+    Please click here to return to the Zenoss dashboard
+
+
+It's hard to troubleshoot because the missing docstring results in a NotFound
+exception. Zope suppresses logging of NotFound errors by default. If you go to
+http://yourzenoss:8080/error_log/manage_workspace and remove NotFound from the
+list of ignored exception types, you'll see a very helpful error in event.log
+when that "Site Error" occurs::
+
+   Traceback (innermost last):
+
+   Module ZPublisher.Publish, line 115, in publish
+   Module ZPublisher.BaseRequest, line 521, in traverse
+   Module ZPublisher.HTTPResponse, line 727, in debugError
+
+   NotFound: Site Error: An error was encountered while publishing this resource. 
+   Debugging Notice:  Zope has encountered a problem publishing your object. 
+   The object at
+   http://mpX.zenoss.loc:8080/zport/dmd/Devices/OpenStack/Infrastructure/devices/mp8.osi/components/tenant-uuid
+   has an empty or missing docstring. Objects must have a docstring to be published. 
+
+
+* Example: Zenpacks.zenoss.OpenStackInfrastructure
+
+  - Jira: ZEN-17701: 
+  - commit: 73fd0fb8599f07e5f0b4174f21ad96dd50952536
+
+  Since the NeutronIntegrationComponent class didn't have a docstring, and it
+  was the first class extended by Tenant/etc, Tenant/etc didn't have a docstring.
+ 
+   
+  - Log Entry Sample::
+
+       10.1.1.50 - Anonymous [07/May/2015:10:06:24 -0500] 
+       "GET /zport/dmd/Devices/OpenStack/Infrastructure/devices/mp8.osi/components/tenant-uuid HTTP/1.1" 
+       404 1136
+       "http://mp2.zenoss.loc:8080/zport/dmd/Devices/OpenStack/Infrastructure/devices/mp8.osi/devicedetail"
+       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36
 
 

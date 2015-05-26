@@ -21,6 +21,68 @@ As you should know, modelers typically live in the folder::
 
   $ZP_DIR/modeler/plugins/zenoss/MyModeler.py
 
+Models in General
+---------------------------------------------------
+Making or changing a model in Zenoss means that you are modifying the ZoDB
+representation of your model. ZoDB creates a hierarchical model of 
+
+* Containing Relations: 
+
+  Choose this type when the sub-object can't live without its parent.
+  Ex: A DB table *MUST* live inside a database. Its stuck inside of the DB.
+
+  Objects and sub-objects are contained within each other.
+  When the parent object is removed, its children are too.
+  Its hierarchical. Its dangerous! (not really)
+
+* Non-Containing Relations
+
+  You choose this type of relation when an object can be moved or exist without
+  its partner relation. Example: A host is associated with a service. But
+  the service can be moved, so its not "stuck" to that host.
+
+  Objects are loosely associated with each other. Deletion of one object
+  does not force removal of a related object.
+
+Developing Tips
+---------------------------------------------------
+Given the information above you need to understand a few critical points
+of developing. The ZoDB model representation is sensitive to change 
+and must be handled carefully. If you damage the ZoDB it may cause many hours
+of repair. 
+
+We discuss two major types of model development: Adding and Modifying.
+
+* Adding to a Model
+
+  When you add to a model, new relations are safely inserted into ZoDB.
+  This means that you can update the ZoDB model for your device by doing:
+
+  - Make your model changes in the code
+  - Insert those changes into Zenoss; Re-install the ZP or similar
+  - Restart services: zenjobs, zenhub, zope (all python daemons that talk to zodb) 
+  - In zendmd, execute::
+
+       device = find('mydev.xyz')
+       device.buildRelations()
+       commit()
+  - Model your device if required
+  - Test
+  - Repeat
+
+* Changing a Model
+
+  Changing a model is more serious, because if done improperly, you end up with
+  relations on a device that don't exist in the ZP model. This makes ZoDB very
+  angry. To make model changes safely, you must do something of this sort:
+
+  - Remove your ZP and associated devices
+  - Make your model changes
+  - Install the ZP or otherwise install your model to ZoDB
+  - Model your device
+  - Test
+  - Repeat
+
 Debugging Tips in General
 ---------------------------------------------------
 * Run the modeler manually like this::

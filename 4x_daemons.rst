@@ -225,7 +225,7 @@ gets added, new partition etc.
 
 ::
 
-    zenmodeller run –d 3.14.1.59 –v10
+   zenmodeller run –d 3.14.1.59 –v10
 
 13. zenrrdcached
 ~~~~~~~~~~~~~~~~
@@ -242,7 +242,11 @@ daemon need to be restarted.
 
 ::
 
-    zopectl restart
+   zopectl restart
+
+To run it in the foreground for debugging::
+
+   zopectl fg
 
 15. zenjobs
 ~~~~~~~~~~~

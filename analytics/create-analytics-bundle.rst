@@ -24,8 +24,9 @@ https://github.com/zenoss/ZenPacks.zenoss.Microsoft.HyperV/blob/feature/analytic
 #. Check results
 
 #. You can also simplify creation of aliases.dsv in the Makefile:
-   https://github.com/zenoss/ZenPacks.zenoss.Microsoft.HyperV/blob/feature/analytics/GNUmakefile#L52
-   https://github.com/zenoss/ZenPacks.zenoss.Microsoft.HyperV/blob/feature/analytics/get_aliases_dsv.xsl
+   https://github.com/zenoss/ZenPacks.zenoss.CiscoAPIC/blob/develop/GNUmakefile#L29
+   https://github.com/zenoss/ZenPacks.zenoss.Microsoft.HyperV/blob/develop/GNUmakefile
+   https://github.com/zenoss/ZenPacks.zenoss.Microsoft.HyperV/blob/develop/get_aliases_dsv.xsl
 
 #. After editing, .dsv file could be added to dmd using chkaliases script, and
   from there exported to objects.xml, so you don't have to edit it from UI or
