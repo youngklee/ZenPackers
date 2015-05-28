@@ -26,7 +26,7 @@ Topics for Zenpack Administration
    zendmd
    triage_checklist
 
-Topics for Zenpack Development
+General Zenpack Development
 =============================================
 
 This is the documentation for Inter-Galactic ZenPack Developers
@@ -35,18 +35,26 @@ This is the documentation for Inter-Galactic ZenPack Developers
    :maxdepth: 2
 
    devel_general
-   analytics/index
    events
    events_special
    gui_properties
    impact
-   migration
    modeling
    collection
+   zep
+
+Special Zenpack Development Topics
+=============================================
+
+.. toctree::
+   :maxdepth: 2
+
+   analytics/index
+   catalog
+   migration
    templating
    unit_testing
-   zep
-   dummy
+
 
 Topics for ZenpackLib 
 =============================================
