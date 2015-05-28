@@ -19,7 +19,7 @@ Start the hotfix for the next patch release if it's not already started:
     #. git flow hotfix start 2.2.1
     #. => Edit setup.py: change VERSION 2.2.0 -> 2.2.1dev
     #. git commit -a -m "Start 2.2.1 Hotfix: Version 2.2.0 -> 2.2.1dev"
-    #. git push
+    #. git flow hotfix publish
 
 Commit changes to hotfix:
 ===============================================================================
