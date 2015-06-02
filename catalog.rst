@@ -183,6 +183,7 @@ References
 
 * http://docs.zope.org/zope2/zope2book/SearchingZCatalog.html
 * https://pypi.python.org/pypi/Products.AdvancedQuery
-* http://community.zenoss.org/docs/DOC-2535
+* http://community.zenoss.org/docs/DOC-2535 (Removes items from the catalog)
 * See AdvancedQuery.html in the doc subfolder.
+* http://wiki.zenoss.org/ZenDMD_Tip_-_Refresh_DeviceSearch_Catalog
 

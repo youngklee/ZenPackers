@@ -57,7 +57,7 @@ variables as examples::
 
    export OLD=3.0.1       # (The previous Master release)
    export CURRENT=3.0.2   # (The current Develop -> new Master release)
-   export NEW=3.0.3       # (The new Develop branch)
+   export NEW=3.0.3       # (The new Develop branch after release)
 
 Start the Release Process
 ----------------------------------
@@ -80,7 +80,7 @@ Starting from a clean *develop* branch::
 * Edit setup.py (set the correct version numbers):
 
   - Typically you just remove the "dev" in the version number
-  - Ensure that the version is the $NEW value
+  - Ensure that the version is the $CURRENT value
 |
 * Commit:
 
