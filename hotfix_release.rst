@@ -25,6 +25,15 @@ Commit changes to hotfix:
 ===============================================================================
 
     #. => Make and commit changes needed in 2.2.1 hotfix 
+        a) git flow feature start ZEN-XXX hotfix/2.2.1
+        b) commit fixes
+        c) git flow feature publish ZEN-XXX
+        d) make pull request from feature/ZEN-XXX to hotfix/2.2.1
+        e) review and merge
+        f) git checkout hotfix/2.2.1
+        g) git pull
+        h) repeat with other existing issues
+
     #. => Update README.mediawiki as required 
     #. git push
 
