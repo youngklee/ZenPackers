@@ -122,24 +122,31 @@ Starting from a clean *develop* branch::
     git checkout develop
 
 
-Build the Master on Jenkins
+Publish the ZenPack Egg
 ==============================
 
-Go to the master branch on Jenkins and build it.
-This will look like
+OpenSource Zenpacks
+-----------------------
+For OpenSource zenpacks, our MediaWiki should take care of grabbing the source
+and building the Egg. This only happens with the right tag:
 
-http://jenkins.zenosslabs.com/job/master-ZenPacks.zenoss.XYZ/
+* Go into the MediaWiki Page for your ZP
+* Log in (if not already)
+* Add the **Git Tag** you created above in the release phase. (cf: $CURRENT)
+* MediaWiki should grab the source, build it, and post the link on the ZP page.
+* Ensure that the correct "Source URI" is listed, usually the Git-Clone URL. 
 
-Inform the Zenoss Release Team
-==============================
+Commercial Zenpacks
+-----------------------
 
-.. Note::
+* For commercial ZenPacks, we send the Egg to Rusty or some higher authority.
 
-   You need to let someone know that you have a released ZP.
-   Consult Chet, John C, Rusty, or the equivalent.
+  - You need to let us know that you have a released a commercial ZP.
+  - Consult Chet, John C, Rusty, or the equivalent with questions.
 
-Method A: Required
-~~~~~~~~~~~~~~~~~~~
+* First: Go to the master branch on Jenkins and build it. This will look like::
+
+   http://jenkins.zenosslabs.com/job/master-ZenPacks.zenoss.XYZ/
 
 * Email the ZP to Rusty: rwilson@zenoss.com
 

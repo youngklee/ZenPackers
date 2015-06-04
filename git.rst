@@ -286,7 +286,7 @@ reviewed, you give it a version. (Source Unknown: Rob B).
 To start a new feature::
 
     [bash]: git flow feature start area51
-    [bash]: git flow feature publish area51
+    [bash]: git flow feature publish
       - (This creates the feature branch on Github, and allows "push")
     [bash]: git status
         On branch feature/area51
