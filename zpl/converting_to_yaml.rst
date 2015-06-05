@@ -3,14 +3,14 @@ Converting from Old-Style ZenPackLib to the New-Style.
 ==================================================================
 
 If you started out using the the original ZPL, you have your YUML specified in your
-$ZP/__init__.py, and a dictionary style of class specificiation.
+$ZP/__init__.py, and a dictionary style of class specification.
 The new style moves almost all of this to a YAML file called $ZP/zenpack.yaml.
 Only special overridden classes get left behind in $ZP/__init__.py.
 
 You might eventually want to convert to the new format.
 Fortunately there are tools and notes here to help you do so.
 
-* Assumed:
+* Assumptions:
 
   - You zenpack is named ZenPacks.zenoss.XYZ
   - You zenpack uses an older form of ZPL that has YUML class structure and
@@ -31,13 +31,14 @@ Fortunately there are tools and notes here to help you do so.
 
 
 * For Local Inherited Classes Only: 
+
   Ensure: In zenpack.yaml: locally inherited $ZP/modules.classes in separate
   files must (for now) use the fully qualified path specification::
 
       ZenPacks.zenoss.XYZ.module.class
 
-  The current *py_to_yaml* tool will often interpet your modules incorrectly
-  as simply::
+  The current **py_to_yaml** can interpret your local base class modules
+  incorrectly as simply::
 
       class
 
@@ -48,7 +49,7 @@ Fortunately there are tools and notes here to help you do so.
                  ....
                  }
 
-  may get **incorrectly** translated into YAML as::
+  can get **incorrectly** translated into YAML as::
 
      Router:
        base:
@@ -99,24 +100,31 @@ Fortunately there are tools and notes here to help you do so.
   - Export zenpack to regenerate objects.xml, 
   - Check that objects.xml is indeed smaller and has no rrdTemplate items
   - Finally: Re-Export the ZP if other changes were made.
+  |
 
 * Save the new Objects.xml
 
+  This only needs to be done if you development environment is not
+  mounted/linked to your git repo. Otherwise skip this step.
+
   - Copy the new $ZP/objects/objects.xml from above to your ZP source tree
+  |
 
 * Remove Old Files that Are No Longer Needed:
 
   - remove no-longer-needed monitoring_templates.yaml 
   - remove load-templates files.
+  |
 
 * You need to be careful that nothing breaks, but it should be really obvious breakage, 
 
   - Try **zendmd** between each change, watching for errors
   - For example: all monitoring templates vanish or something.  
   - It should not be subtle if it's not working
+  |
 
-*  You may wish to manually prune out at least one montioring template 
-   to convince yourself that ZPL is re-creating them at install time
+* You may wish to manually prune out at least one montioring template 
+  to convince yourself that ZPL is re-creating them at install time.
 
 * Though it would also be clear when you tried to export.. 
   Either they'd get pruned out or they would not.  
