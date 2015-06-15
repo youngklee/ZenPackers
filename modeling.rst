@@ -397,10 +397,12 @@ If you get an error this this nature::
 you probably have a problem where ZODB does not have a relationship map built
 to handle your data structure. This can happen if:
 
-* Your ZenPack failed to execute buildRelations() on your device.
-* You somehow damaged the relations structure in ZODB.
+* You forgot to restart Zenoss services after installing the ZP, then added a
+  device. Such a device won't have your ZP's deviceClass available to it.
 * The device structure was changed after the ZP was installed, while the old
   relationship map still persists.
+* Your ZenPack failed to execute buildRelations() on your device.
+* You somehow damaged the relations structure in ZODB.
 
 You may be able to fix this in **zendmd** by issuing these commands::
 
@@ -408,6 +410,17 @@ You may be able to fix this in **zendmd** by issuing these commands::
    >>> d=find('mp3.zenoss.loc')
    >>> d.buildRelations()
    >>> commit()
+
+Also, sometimes the deviceClass will be wrong/missing for same reasons above.
+You can fix this also in **zendmd**::
+
+   d = find('blah')
+   d.buildRelations()
+   if d.__class__ != d.deviceClass().getPythonDeviceClass():
+       d.changeDeviceClass(d.getDeviceClassPath())
+   commit()
+
+* Now try to remodel and see if those problems persist
 
 DEBUG zen.Classifier: No classifier defined
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

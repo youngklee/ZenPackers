@@ -34,3 +34,24 @@ For example: To add PyYAML to the zope containers::
 
     [zenoss@cc]: serviced snapshot commit mychange
     [zenoss@cc]: serviced service restart ...
+
+Installing Linked Zenpack that needs Maven, Java, etc...
+---------------------------------------------------------
+
+ZenPacks that need maven offer a slight problem, because you need to install
+Maven and Java (OpenSDK) to get them installed in link-mode. There is also a
+minor package dependency problem in zenoss-centos-deps.
+
+They can be installed in the following way in a container::
+
+    
+    [zenoss@cc]:serviced service attach zenhub
+
+    [root@Zenhub]: yum remove zenoss-centos-deps
+    [root@Zenhub]: yum install maven
+    [root@Zenhub]: su - zenoss
+
+    [zenoss@Zenhub]: zenpack --link --install /z/ZenPacks.zenoss.XYZ
+    ... exit out of the containers ...
+    [zenoss@cc]: serviced service restart zenoss.core 
+
