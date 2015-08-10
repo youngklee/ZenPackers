@@ -83,6 +83,10 @@ We discuss two major types of model development: Adding and Modifying.
   - Test
   - Repeat
 
+.. warning:: Changing a model for a ZP that has been deployed to the field should
+          be avoided at all costs. Asking thousands of customers to wipe out
+          their zenpacks and re-install is a **major** inconvenience to them.
+
 Debugging Tips in General
 ---------------------------------------------------
 * Run the modeler manually like this::

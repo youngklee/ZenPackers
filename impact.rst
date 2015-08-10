@@ -1,5 +1,144 @@
 ==============================================================================
-Impact Rough Guide
+Impact Guide (New Style)
+==============================================================================
+
+Description
+------------------------------------------------------------------------------
+
+Zenoss uses Impact to define the dependency tree (graph) of all devices.
+ZenPackLib does a lot of setup for Impact, hiding much of the old-style code.
+
+Prerequisites
+------------------------------------------------------------------------------
+
+* Zenoss ZenPack Developement
+* Python 2.7
+* A ZPL zenpack
+* All normal relationships are setup between devices and components
+
+Impact Outline
+------------------------------------------------------------------------------
+
+The Basic idea behind Impact is as follows:
+
+* Create a diagram of your impacts, based on device/component relations
+* Inside each of your devices/components define the following sections
+  which contain a list of relationships that define your impact diagram:
+
+  - impacts
+  - impacted_by
+
+* Note: The defining list for (impacts, impacted_by) can also be a function
+        that returns a list of objects that belong to your relationship.
+        In this case, its common to want a smaller subset of objects because
+        the bare relationship has objects that don't affect the impact
+        relationship. For example, your device contains many hosts, but only 
+        one of those hosts has the API service that your device depends on,
+        so you filter out only that one.
+
+
+An Example
+-------------------------------------------------------------------------------
+
+This example uses ControlCenter which has the following devices and components:
+
+* ControlCenter Device (think API)
+* Host
+* Pool
+* Service (definitions of services)
+* Running (the actual running service based on a definition)
+
+The ControlCenter devices contains all other components. We focus on the
+Host relations for this example. The class relationships look like this::
+
+   class_relationships:
+     - ControlCenter 1:MC (controlcenter)Host
+     - Pool(poolHosts) 1:M (hostPool)Host
+     - Host(hostRuns) 1:M (runHost)Running
+
+
+Then the impact relations look like this::
+
+   Pool:
+     meta_type: ZenossControlCenterPool
+     label: CC-Pool
+     impacts: [parentPool]
+     impacted_by: [poolHosts, childPools]
+
+   Host:
+     meta_type: ZenossControlCenterHost
+     label: CC-Host
+     impacts: [hostPool, hostRuns]
+     impacted_by: [containing_linux_device]
+
+   Running:
+     meta_type: ZenossControlCenterRunning
+     label: CC-RunningService
+     impacts: [serviceDef]
+     impacted_by: [runHost]
+
+Note that containing_linux_device is method that gets impacts from Linux devices
+that may be running the (virtual) Host.
+See the following code for hints on this functionality::
+
+
+* ZenPacks.zenoss.ControlCenter/ZenPacks/zenoss/ControlCenter/patches/__init__.py
+* ZenPacks.zenoss.ControlCenter/ZenPacks/zenoss/ControlCenter/patches/platform.py
+* ZenPacks.zenoss.ControlCenter/ZenPacks/zenoss/ControlCenter/Host.py
+* ZenPacks.zenoss.ControlCenter/ZenPacks/zenoss/ControlCenter/configure.zcml
+
+
+It is also common to have a function that returns just a subset of your full
+relationship components. Using the same ZP as an example, 
+we have relationships for Service::
+
+   class_relationships:
+     - Pool(assignedServices) 1:M (assignedPool)Service
+     - Service(serviceRuns) 1:M (serviceDef)Running
+     - Service(childServices) 1:M (parentService)Service
+
+and components impact relations::
+
+  Pool:
+    meta_type: ZenossControlCenterPool
+    label: CC-Pool
+    impacts: [parentPool]
+    impacted_by: [poolHosts, childPools]
+
+  Service:
+    meta_type: ZenossControlCenterService
+    label: CC-Service
+    impacts: [parentService]
+    impacted_by: [childServices, serviceRuns, getImports]
+
+  Running:
+    meta_type: ZenossControlCenterRunning
+    label: CC-RunningService
+    impacts: [serviceDef]
+    impacted_by: [runHost]
+
+where getImports() has a signature::
+
+   def getImports(self):
+       '''Defines iterable of services that it imports for impact....
+           * Input: <Service>self. We use endpoints and services()
+           * Output: <list>[service-id] for impact
+           * Don't change any of the modeling data.. import it all..
+             During modeling, model endpoints on each service...
+           * Take what is in endpoints and model it here.. Don't do it in
+             modeling because of the auto-diffing mechanisms...
+             for service in self.device().services():
+       '''
+       ... do some work ...
+       ... do some more work ...
+       ... do alot more work than you want to see ...
+       see ZenPacks.zenoss.ControlCenter/ZenPacks/zenoss/ControlCenter/Service.py
+
+       # Return a list of filtered services unique to this impact.
+       return [service(i) for i in _imports]
+  
+==============================================================================
+Impact Rough Guide (Old Style)
 ==============================================================================
 
 Description

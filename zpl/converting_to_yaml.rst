@@ -86,7 +86,13 @@ Fortunately there are tools and notes here to help you do so.
 
   - restart zenoss, 
 
+
+  .. warning:: Some of the next steps will eventually be automatic.
+               You should be able to simply export your objects.xml after setting
+               up your zenpack.yaml and the correct components will be included.
+
 * Pruning Objects.xml
+
   You need to remove all the superfluous junk that now resides in objects.xml.
   This is because zenpack.yaml takes care of most of it.
   Follow these guidelines for pruning:
