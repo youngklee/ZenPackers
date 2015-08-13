@@ -41,7 +41,8 @@ This is the documentation for Inter-Galactic ZenPack Developers
    impact
    modeling
    collection
-   zep
+   graphs
+
 
 Special Zenpack Development Topics
 =============================================
@@ -54,6 +55,7 @@ Special Zenpack Development Topics
    migration
    templating
    unit_testing
+   zep
 
 
 Topics for ZenpackLib 

@@ -60,19 +60,16 @@ Host relations for this example. The class relationships look like this::
 Then the impact relations look like this::
 
    Pool:
-     meta_type: ZenossControlCenterPool
      label: CC-Pool
      impacts: [parentPool]
      impacted_by: [poolHosts, childPools]
 
    Host:
-     meta_type: ZenossControlCenterHost
      label: CC-Host
      impacts: [hostPool, hostRuns]
      impacted_by: [containing_linux_device]
 
    Running:
-     meta_type: ZenossControlCenterRunning
      label: CC-RunningService
      impacts: [serviceDef]
      impacted_by: [runHost]
@@ -87,6 +84,8 @@ See the following code for hints on this functionality::
 * ZenPacks.zenoss.ControlCenter/ZenPacks/zenoss/ControlCenter/Host.py
 * ZenPacks.zenoss.ControlCenter/ZenPacks/zenoss/ControlCenter/configure.zcml
 
+A Second Example
+-------------------------------------------------------------------------------
 
 It is also common to have a function that returns just a subset of your full
 relationship components. Using the same ZP as an example, 
@@ -100,19 +99,16 @@ we have relationships for Service::
 and components impact relations::
 
   Pool:
-    meta_type: ZenossControlCenterPool
     label: CC-Pool
     impacts: [parentPool]
     impacted_by: [poolHosts, childPools]
 
   Service:
-    meta_type: ZenossControlCenterService
     label: CC-Service
     impacts: [parentService]
     impacted_by: [childServices, serviceRuns, getImports]
 
   Running:
-    meta_type: ZenossControlCenterRunning
     label: CC-RunningService
     impacts: [serviceDef]
     impacted_by: [runHost]
@@ -129,10 +125,11 @@ where getImports() has a signature::
              modeling because of the auto-diffing mechanisms...
              for service in self.device().services():
        '''
+
        ... do some work ...
        ... do some more work ...
        ... do alot more work than you want to see ...
-       see ZenPacks.zenoss.ControlCenter/ZenPacks/zenoss/ControlCenter/Service.py
+       # see ZenPacks.zenoss.ControlCenter/ZenPacks/zenoss/ControlCenter/Service.py
 
        # Return a list of filtered services unique to this impact.
        return [service(i) for i in _imports]
