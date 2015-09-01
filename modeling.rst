@@ -89,6 +89,11 @@ We discuss two major types of model development: Adding and Modifying.
 
 Debugging Tips in General
 ---------------------------------------------------
+
+.. note:: If you set **zCollectorLogChanges** to True on the device, remodel, then look for
+          closed info severity events in the /Change event class, you'll see specific
+          model changes.
+
 * Run the modeler manually like this::
 
    zenmodeler run  -workers=0 -v10 -d mp3.zenoss.loc |& tee mod.txt
@@ -439,7 +444,7 @@ INFO zen.ZenModeler: No change in configuration detected (or similar)
 So you've made changes to your ZP's class structure and have pushed those
 changes out. You may have even re-installed the ZP for good measure.
 Your modeler seems to be working correctly and gathering data.
-But your modeler isn't apply any changes.
+But your modeler isn't applying any changes!
 
 If your modeler get this message after modeling, you could be
 a victim of ZenDMD Class Mismatch Syndrome (TM). This means that the old
@@ -447,9 +452,7 @@ structure is still in place and so none of your changes are being compared
 to the new class structure. There are 2 easy ways to fix this:
 
 #. Completely remove and reinstall your ZP, now remodel.
-#. Go into ZenDMD and simply load the new class, then remodel
-
-::
+#. Go into ZenDMD and simply load the new class, then remodel::
 
 
    [zenoss@mp4:/home/zenoss]: zendmd
@@ -503,4 +506,46 @@ base type.
 * Another way is to serialize and pass in your data (perhaps with JSON).
   Of course you'll have to de-serialize it when you need to use it.
 
+
+TypeError: 'str' object is not callable
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------------
+
+You added a component or object somewhere and have defined a "name" or "device"
+(or some other) object. You get an error as per example::
+
+   File "/opt/zenoss/Products/Zuul/catalog/global_catalog.py", line 290, in searchExcerpt
+      o.name(), o.device().titleOrId())
+   TypeError: 'str' object is not callable
+
+What you have done was to create property on a reserved method, which is
+causing the modeler to think that its own method is of wrong type.
+
+Reserved words include:
+
+* api_backendtype
+* api_only
+* class_spec,
+* content_width
+* datapoint_cached
+* datapoint_default
+* datapoint
+* default
+* details_display
+* device
+* display
+* editable
+* enum
+* grid_display
+* index_scope
+* index_type
+* label
+* label_width
+* name
+* order
+* renderer
+* short_label
+* _source_location
+* type
+* type_
 

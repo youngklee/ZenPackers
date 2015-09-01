@@ -31,6 +31,10 @@ You may have to do the following to heal it:
 Corrupted RabbitMQ DB (Changed Hostnames?) 
 --------------------------------------------
 
+You see::
+
+   http://xyz.zenoss.loc:8080/zport/acl_users/cookieAuthHelper/login
+
 If you find that you have broken RabbitMQ you may have some errors like this in
 your Event.log::
 

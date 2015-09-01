@@ -18,3 +18,4 @@ It does this by:
    relationships
    errors
    converting_to_yaml
+   component_only
