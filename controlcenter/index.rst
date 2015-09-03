@@ -27,6 +27,7 @@ Setup and Configuration
    updating
    cp-beta
    containers
+   backups
 
 =============================================
 Zenpack Development 

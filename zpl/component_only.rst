@@ -1,9 +1,9 @@
 ===================================================================
-Creating a Zenpack of Components to Add to an Existing Device class
+Component-Only Modeling: Add to Existing Device
 ===================================================================
 
 If your zenpacklib created zenpack does not need a device class and will just
-be adding components (to an existing device), you will only need to add a
+be adding components to an existing device, you will need to add a
 relationship between the base device class and your new component. In your
 *zenpack.yaml*::
 
@@ -13,7 +13,10 @@ relationship between the base device class and your new component. In your
          base: [zenpacklib.Component]
 
    class_relationships:
+
    - Products.ZenModel.Device.Device 1:MC ExchangeServer
+
+   ... etc ...
 
 As always, be sure to either install or reinstall the zenpack and restart your
 services when making this change. If not, you'll see this 
