@@ -42,7 +42,14 @@ Finish hotfix when all changes are committed:
 
     #. => Edit setup.py: change VERSION 2.2.1dev -> 2.2.1
     #. git commit -a -m "Finish 2.2.1 Hotfix: Version 2.2.1dev -> 2.2.1"
-    #. git flow hotfix finish
+    #. git flow hotfix finish 2.2.1
+    #. More than likely you will see a merge conflict with setup.py on the develop branch
+        a) fix the version in setup.py
+        b) git add setup.py
+        c) git commit -a
+        d) git push
+        e) fix any other conflicts, commit, and push
+        f) git flow hotfix finish 2.2.1
     #. git push --all
     #. git push --tags
 
