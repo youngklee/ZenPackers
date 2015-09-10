@@ -47,8 +47,15 @@ and questions related to ZP dev, and if we all participate in this, its almost
 guaranteed that we will suceed.
 
 
-Writing and Using Sphinx-Doc
+How to Contribute: Using Sphinx-Doc
 -----------------------------------------------------------------------------
+We use Sphinx to write these documents. Its easy to install and use in Linux
+and OSX. Sphinx uses Restructured Text format, which can be found here:
+
+* http://sphinx-doc.org/rest.html
+
+We cover several OS setup scenarios below.
+
 
 Installing
 ============
@@ -65,16 +72,12 @@ In Debian/Ubuntu, you need (at minimum) these packages::
 
     apt-get install python-sphinx make
 
-In Centos::
+In Centos or Redhat::
 
     yum install python-sphinx.noarch make
 
 In MacOSX::
   
-    sudo port install py27-sphinx make
-
-or::
-
     brew install sphinx
 
 
