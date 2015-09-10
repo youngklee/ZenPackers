@@ -11,13 +11,16 @@ https://github.com/zenoss/ZenPacks.zenoss.Microsoft.HyperV/blob/feature/analytic
 
 #. Setup your labels in each component::
 
-   _properties = BaseComponent._properties + (
-   {'id': 'path', 'label': 'Full Path', 'type': 'string', 'mode': ''},
-   {'id': 'replication', 'label': 'Replication', 'type': 'string', 'mode': ''},
-   {'id': 'did_status', 'label': 'DID status', 'type': 'string', 'mode': ''},
-   )
+    _properties = BaseComponent._properties + (
+    {'id': 'path', 'label': 'Full Path', 'type': 'string', 'mode': ''},
+    {'id': 'replication', 'label': 'Replication', 'type': 'string', 'mode': ''},
+    {'id': 'did_status', 'label': 'DID status', 'type': 'string', 'mode': ''},
+    )
 
   - See: https://github.com/zenoss/ZenPacks.zenoss.SolarisMonitor/blob/develop/ZenPacks/zenoss/SolarisMonitor/ClusterDID.py#L25
+
+.. note:: Note you must have a device fully modelled and with all the aliases in place to
+   get the measures to come out!
 
 #. Check that Analytics server has your tables created
 #. Run the create-analytics-bundle
