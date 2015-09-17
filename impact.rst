@@ -1,5 +1,54 @@
 ==============================================================================
-Impact Guide (New Style)
+Impact Guide
+==============================================================================
+
+In general, Impact is a way to create a dependency diagram for your devices and
+components. It leverages the existing relationships you already have.
+It requires a two way set of relations:
+
+* impacts
+* impacted_by
+
+Those relations specify your exising device/component relationships.
+
+Debugging Impact
+==============================================================================
+
+Before we start down the Impact road, we need to know how to debug.
+Its often difficult to get inside Impact because it is not a Python
+service that can be started in the foreground. 
+
+Instead we can use *zendmd* to get inside Impacts head. This dmd snippet will all
+you to debug your Impact specific code::
+
+   device = find("mydevice")
+
+   from Products.Zuul.catalog.events import IndexingEvent
+   from zope.event import notify
+
+   notify(IndexingEvent(device))
+
+   for component in device.getDeviceComponents():
+         notify(IndexingEvent(component))
+
+   commit()
+
+
+One must realize that this only invokes the Impact indexing code and does not
+apply this to Zenoss in general. Zenoss only invokes Impact when modeling
+changes are applied. This means that something must change in the model.
+
+In general please note:
+
+* Insert your pdb's in the appropriate place, usually a class file (see below)
+* You must use the commit() to get your debugger code to execute
+* Despite the commit(), your code will not be applied to the running ZP
+* To get your debugged code to apply to your ZP, you must:
+
+  - Remove a component or relationship
+  - Remodel your device
+
+Impact ZPL Style
 ==============================================================================
 
 Description
@@ -37,7 +86,7 @@ The Basic idea behind Impact is as follows:
         so you filter out only that one.
 
 
-An Example
+A ZPL Example
 -------------------------------------------------------------------------------
 
 This example uses ControlCenter which has the following devices and components:
@@ -84,7 +133,7 @@ See the following code for hints on this functionality::
 * ZenPacks.zenoss.ControlCenter/ZenPacks/zenoss/ControlCenter/Host.py
 * ZenPacks.zenoss.ControlCenter/ZenPacks/zenoss/ControlCenter/configure.zcml
 
-A Second Example
+A Second ZPL Example
 -------------------------------------------------------------------------------
 
 It is also common to have a function that returns just a subset of your full
@@ -134,8 +183,7 @@ where getImports() has a signature::
        # Return a list of filtered services unique to this impact.
        return [service(i) for i in _imports]
   
-==============================================================================
-Impact Rough Guide (Old Style)
+Impact Rough Guide: Pre-ZPL Style
 ==============================================================================
 
 Description
@@ -165,7 +213,7 @@ The Basic idea behind Impact is as follows:
 
 * Identify what devices are dependent on one another.
 
-   - It may be useful to create a diagram that shows dependency
+   - Create a visual diagram that shows dependency
    - Make sure you understand how a component or device failure will affect other systems.
    - In your base classes you have defined your _relations which can be
      (ToOne, ToMany, ToManyCont, etc). Example minus Boilerplate:
