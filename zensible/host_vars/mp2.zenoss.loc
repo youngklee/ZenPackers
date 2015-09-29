@@ -1,5 +1,4 @@
 ---
-# file: host_vars/bwa.fortuitous.com
 
 sudo_user: zenoss
 sudo_group: zenoss
@@ -7,9 +6,9 @@ sudo_group: zenoss
 ethernet_cards: 
   - eth0
 
-eth0_ip_address: 10.87.110.244
-eth0_ip_gateway: 10.87.110.1
+eth0_ip_address: 10.1.1.244
+eth0_ip_gateway: 10.1.1.1
 eth0_ip_netmask: 255.255.255.0
-eth0_uuid: d86a61c9-722f-44bc-8f2d-fbffdeac30a0
+eth0_uuid: c86a61c9-722a-44bc-8f2d-fbffdeac30a0
 
 nfs_mount: false

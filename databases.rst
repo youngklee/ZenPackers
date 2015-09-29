@@ -39,7 +39,7 @@ If you find that you have broken RabbitMQ you may have some errors like this in
 your Event.log::
 
   2013-10-03T13:16:24 ERROR Zope.SiteErrorLog 1380824184.320.0639042181339 \
-  http://192.168.122.24:8080/zport/dmd/Devices/Server/Linux/devices/10.87.110.77/device_router
+  http://192.168.12.24:8080/zport/dmd/Devices/Server/Linux/devices/10.18.10.7/device_router
   Traceback (innermost last):
   Module ZPublisher.Publish, line 134, in publish
   Module Zope2.App.startup, line 301, in commit

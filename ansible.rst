@@ -129,7 +129,7 @@ task groups::
   |-- group_vars
   |   \-- all
   |-- host_vars
-  |   |-- 192.168.122.7
+  |   |-- 192.168.12.7
   |   \-- mp2.zenoss.loc
   |-- laptops.yml
   |-- production
