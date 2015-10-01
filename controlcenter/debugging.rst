@@ -48,9 +48,38 @@ zope in the foreground and you need to know which one.
 
    kill $pid && su - zenoss -c /opt/zenoss/bin/runzope 
 
+* Easy way to restart Zope in foreground with pkill::
+
+   pkill -f zope.conf ; zopectl fg
+
 * Now you need to trigger your bug by using the GUI.
   Go to the GUI and do this now.
 
 * If you are lucky, your terminal will have caught your pdb at the correct place.
+
+Running Various Daemons in Foreground
+--------------------------------------
+
+For each of these next commands, you must be attached to the <container>
+and su'd into the zenoss account there like this::
+
+   serviced service attach <container> su - zenoss
+
+* Zope::
+
+   pkill -f zope.conf ; zopectl fg
+
+* Zenhub::
+   
+   pkill -f zenhub.conf ; zenhub run --workers=0 -v10
+
+* Zeneventd::
+   
+   pkill -f zeneventd.conf ; zeneventd run --workers=0 -v10
+
+* Zenpython, Zenmodeler, Zencommand
+
+  You would normally stop the container and run the daemon manually
+  from a zope container.
 
 
