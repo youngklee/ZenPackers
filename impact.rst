@@ -48,6 +48,14 @@ In general please note:
   - Remove a component or relationship
   - Remodel your device
 
+Rebuilding the Impact Model/Graph
+-------------------------------------
+
+You may be able to rebuild your impact graph manually in the appropriate
+container or system::
+
+   zenimpactgraph run --update
+
 Impact ZPL Style
 ==============================================================================
 
@@ -307,8 +315,7 @@ The Basic idea behind Impact is as follows:
 Boiler Plate Code Example
 -------------------------
 
-.. _example
-
+.. _example 
 ::
 
    ##############################################################################
@@ -474,4 +481,6 @@ This is some sample code that shows impacts on an object::
            print
 
    show_impacts_for(find("VACC").os.interfaces._getOb('VLAN0200'))
+
+
 
