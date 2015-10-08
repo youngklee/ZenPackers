@@ -148,7 +148,7 @@ Commercial Zenpacks
 
    http://jenkins.zenosslabs.com/job/master-ZenPacks.zenoss.XYZ/
 
-* Email the ZP to Rusty: rwilson@zenoss.com
+* Email the ZP to Rusty: zsalinas@zenoss.com
 
   - Include a list of all dependencies in the email body.
 
