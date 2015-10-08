@@ -19,7 +19,7 @@ The steps are:
   Do not cut-and-paste from the HTML of this document. The HTML contains
   control characters that will corrupt your git commands!
   Instead you can use the source from github at
-  git@github.com:zenoss/ZenPackers.git
+  https://github.com/zenoss/zenpackers
 
 3rd Party Software Approval
 ================================
