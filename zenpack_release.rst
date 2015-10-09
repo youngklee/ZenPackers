@@ -139,18 +139,18 @@ and building the Egg. This only happens with the right tag:
 Commercial Zenpacks
 -----------------------
 
-* For commercial ZenPacks, we send the Egg to Rusty or some higher authority.
+* For commercial ZenPacks, we send the Egg to our release team.
 
   - You need to let us know that you have a released a commercial ZP.
-  - Consult Chet, John C, Rusty, or the equivalent with questions.
 
 * First: Go to the master branch on Jenkins and build it. This will look like::
 
    http://jenkins.zenosslabs.com/job/master-ZenPacks.zenoss.XYZ/
 
-* Email the ZP to Rusty: zsalinas@zenoss.com
+* Email the ZP release team at the following: zenpack-releases@zenoss.com
 
   - Include a list of all dependencies in the email body.
+  - Include the egg as an attachement
 
 Publish the Documentation on Wiki
 =================================
