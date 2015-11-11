@@ -137,23 +137,26 @@ Updating Zendev, Bare Bones Style
 Updating Zendev is getting simpler. Eventually there will be a single button
 to push. Until that time try these directions:
 
-* sudo stop docker
-* sudo umount $(grep 'aufs' /proc/mounts | awk '{print$2}' | sort -r)
-* sudo rm -fr /var/lib/docker
-* sudo reboot (Host System)
+* Stop docker::
+    
+    sudo stop docker
+    sudo umount $(grep 'aufs' /proc/mounts | awk '{print$2}' | sort -r)
+    sudo rm -fr /var/lib/docker
+    
+* Log back in to host system::
+    
+    sudo reboot (Host System)
+    sudo start docker (if not started)
+    zendev selfupdate; zendev sync
 
-  - Log back in to host system
-
-* sudo start docker (if not started)
-* zendev selfupdate; zendev sync
-* cdz serviced && make clean && make
-
-  - That will create devimg and pull in isvcs
-
-* zendev build devimg --clean
-* zendev serviced -dx
-
-  - This will start serviced and pull other images
+* Create devimg and pull in isvcs::
+    
+    cdz serviced && make clean && make
+    zendev build devimg --clean
+    
+* start serviced and pull other images::
+    
+    zendev serviced -dx
 
 To cut-n-paste::
 
@@ -185,7 +188,9 @@ process:
 
 #. cd /mnt/src/zenpacks
 #. Make sure your zenpack is present
-#. zenpack --link --instal ZenPacks.zenoss.XYZ
+#. Execute the zenpack command::
+    
+    zenpack --link --install ZenPacks.zenoss.XYZ
 
 
 Sometimes you have no choice but to install using Egg. In that case
