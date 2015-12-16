@@ -76,7 +76,7 @@ to do the following items:
 
 * Watch the services with::
 
-   watch serviced service status
+   zendev serviced service status
 
 *  .. WARNING:: 
       
